@@ -1,171 +1,101 @@
-
 'use client'
 
 import { hotelsData } from "../../../data/hotels";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper";
-import Image from "next/image";
 import Link from "next/link";
+
+// 🎨 tag color mapping
+const tagColors = {
+  "breakfast included": "bg-dark-1 text-white",
+  "best seller": "bg-blue-1 text-white",
+  "-25% today": "bg-brown-1 text-white",
+  "top rated": "bg-yellow-1 text-dark-1",
+};
 
 const HotelProperties = () => {
   return (
     <>
-      {hotelsData.slice(0, 7).map((item) => (
-        <div className="col-12" key={item?.id}>
-          <div className="border-top-light pt-30">
-            <div className="row x-gap-20 y-gap-20">
-              <div className="col-md-auto">
-                <div className="cardImage ratio ratio-1:1 w-250 md:w-1/1 rounded-4">
-                  <div className="cardImage__content">
-                    <div className="cardImage-slider rounded-4  custom_inside-slider">
-                      <Swiper
-                        className="mySwiper"
-                        modules={[Pagination, Navigation]}
-                        pagination={{
-                          clickable: true,
-                        }}
-                        navigation={true}
-                      >
-                        {item?.slideImg?.map((slide, i) => (
-                          <SwiperSlide key={i}>
-                            <Image
-                              width={250}
-                              height={250}
-                              className="rounded-4 col-12 js-lazy"
-                              src={slide}
-                              alt="image"
-                            />
-                          </SwiperSlide>
-                        ))}
-                      </Swiper>
-                    </div>
-                  </div>
-                  {/* End image */}
+      {hotelsData.slice(0, 7).map((item) => {
+        // pick a class for badge
+        const tagClass =
+          tagColors[item?.tag?.toLowerCase()] || "bg-light text-dark-1";
 
-                  <div className="cardImage__wishlist">
-                    <button className="button -blue-1 bg-white size-30 rounded-full shadow-2">
-                      <i className="icon-heart text-12"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              {/* End .col */}
-
-              <div className="col-md">
-                <h3 className="text-18 lh-16 fw-500">
-                  {item?.title}
-                  <br className="lg:d-none" /> {item?.location}
-                  <div className="d-inline-block ml-10">
-                    <i className="icon-star text-10 text-yellow-2"></i>
-                    <i className="icon-star text-10 text-yellow-2"></i>
-                    <i className="icon-star text-10 text-yellow-2"></i>
-                    <i className="icon-star text-10 text-yellow-2"></i>
-                    <i className="icon-star text-10 text-yellow-2"></i>
-                  </div>
-                </h3>
-
-                <div className="row x-gap-10 y-gap-10 items-center pt-10">
-                  <div className="col-auto">
-                    <p className="text-14">{item?.location}</p>
-                  </div>
-
-                  <div className="col-auto">
-                    <button
-                      data-x-click="mapFilter"
-                      className="d-block text-14 text-blue-1 underline"
+        return (
+          <div className="col-12" key={item?.id}>
+            <div className="border-top-light pt-30">
+              <div className="row x-gap-20 y-gap-20">
+                
+                {/* Middle Content */}
+                <div className="col-md">
+                  <div className="col-md-4">
+                     {/* ✅ Tag Badge Above Title */}
+                  {item?.tag && (
+                    <div
+                      className={`mb-10 inline-block py-5 px-15 rounded-right-4 text-12 lh-16 fw-500 uppercase ${tagClass}`}
                     >
-                      Show on map
-                    </button>
+                      {item?.tag}
+                    </div>
+                  )}
+                  </div>
+                 
+
+                  <h3 className="text-18 lh-16 fw-500">
+                    {item?.title}
+                    <br className="lg:d-none" /> {item?.location}
+                    <div className="d-inline-block ml-10">
+                      {[...Array(5)].map((_, i) => (
+                        <i
+                          key={i}
+                          className="icon-star text-10 text-yellow-2"
+                        ></i>
+                      ))}
+                    </div>
+                  </h3>
+
+                  <div className="text-14 lh-15 mt-20">
+                    <div className="fw-500">Objects</div>
+                    <div className="text-light-1">Manufacturing</div>
                   </div>
 
-                  <div className="col-auto">
-                    <div className="size-3 rounded-full bg-light-1"></div>
+                  <div className="text-14 text-green-2 lh-15 mt-10">
+                    <div className="fw-500">ROC - Uttar Pradesh / Delhi</div>
+                    <div>Start the operation before - 31/03/2024</div>
                   </div>
 
-                  <div className="col-auto">
-                    <p className="text-14">2 km to city center</p>
+                  <div className="row x-gap-10 y-gap-10 pt-20">
+                    {["GST", "ROC", "IT Returns"].map((label, i) => (
+                      <div className="col-auto" key={i}>
+                        <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
+                          {label}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
+                {/* End .col-md */}
 
-                <div className="text-14 lh-15 mt-20">
-                  <div className="fw-500">King Room</div>
-                  <div className="text-light-1">1 extra-large double bed</div>
-                </div>
-
-                <div className="text-14 text-green-2 lh-15 mt-10">
-                  <div className="fw-500">Free cancellation</div>
-                  <div className="">
-                    You can cancel later, so lock in this great price today.
-                  </div>
-                </div>
-
-                <div className="row x-gap-10 y-gap-10 pt-20">
-                  <div className="col-auto">
-                    <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
-                      Breakfast
+                {/* Right Column */}
+                <div className="col-md-auto text-right md:text-left mt-30">
+                  <div>
+                    <div className="text-22 lh-12 fw-600 mt-5">Budget</div>
+                    <div className="text-14 text-light-1 mt-5">
+                      Depend Upon Company
                     </div>
-                  </div>
 
-                  <div className="col-auto">
-                    <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
-                      WiFi
-                    </div>
-                  </div>
-
-                  <div className="col-auto">
-                    <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
-                      Spa
-                    </div>
-                  </div>
-
-                  <div className="col-auto">
-                    <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
-                      Bar
-                    </div>
+                    <Link
+                      href="#"
+                      className="button -md -dark-1 bg-blue-1 text-white mt-24"
+                    >
+                      Get Availability{" "}
+                      <div className="icon-arrow-top-right ml-15"></div>
+                    </Link>
                   </div>
                 </div>
-              </div>
-              {/* End .col-md */}
-
-              <div className="col-md-auto text-right md:text-left">
-                <div className="row x-gap-10 y-gap-10 justify-end items-center md:justify-start">
-                  <div className="col-auto">
-                    <div className="text-14 lh-14 fw-500">Exceptional</div>
-                    <div className="text-14 lh-14 text-light-1">
-                      3,014 reviews
-                    </div>
-                  </div>
-                  <div className="col-auto">
-                    <div className="flex-center text-white fw-600 text-14 size-40 rounded-4 bg-blue-1">
-                      {item?.ratings}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="">
-                  <div className="text-14 text-light-1 mt-50 md:mt-20">
-                    8 nights, 2 adult
-                  </div>
-                  <div className="text-22 lh-12 fw-600 mt-5">
-                    US${item?.price}
-                  </div>
-                  <div className="text-14 text-light-1 mt-5">
-                    +US$828 taxes and charges
-                  </div>
-
-                  <Link
-                    href={`/hotel-single-v2/${item.id}`}
-                    className="button -md -dark-1 bg-blue-1 text-white mt-24"
-                  >
-                    See Availability{" "}
-                    <div className="icon-arrow-top-right ml-15"></div>
-                  </Link>
-                </div>
+                {/* End .col-md-auto */}
               </div>
             </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </>
   );
 };

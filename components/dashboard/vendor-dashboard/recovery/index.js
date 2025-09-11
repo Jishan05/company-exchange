@@ -1,7 +1,7 @@
 
-import Sidebar from "../common/Sidebar";
-import Header from "../../../../components/header/dashboard-header";
-import Footer from "../common/Footer";
+import SidebarOne from "@/components/dashboard/seller-dashboard/add-post/components/Sidebar";
+import HeaderDashBoardTwo from "@/components/header/dashboard-header-two";
+import Footer from "@/components/dashboard/dashboard/common/Footer";
 import BookingTable from "./components/BookingTable";
 import Link from "next/link";
 
@@ -14,12 +14,12 @@ const index = () => {
 
       <div className="header-margin"></div>
 
-      <Header />
+      <HeaderDashBoardTwo />
       {/* End dashboard-header */}
 
       <div className="dashboard">
         <div className="dashboard__sidebar bg-white scroll-bar-1">
-          <Sidebar />
+          <SidebarOne />
           {/* End sidebar */}
         </div>
         {/* End dashboard__sidebar */}
@@ -28,7 +28,7 @@ const index = () => {
           <div className="dashboard__content bg-light-2">
             <div className="row y-gap-20 justify-between items-end pb-60 lg:pb-40 md:pb-32">
               <div className="col-auto">
-                <h1 className="text-30 lh-14 fw-600"> Recovery</h1>
+                <h1 className="text-30 lh-14 fw-600"> Admin Company List</h1>
                 <div className="text-15 text-light-1">
                   Lorem ipsum dolor sit amet, consectetur.
                 </div>
@@ -40,7 +40,7 @@ const index = () => {
                   href="#"
                   className="button h-50 px-24 -dark-1 bg-blue-1 text-white"
                 >
-                  Add Recovery{" "}
+                  Latest Companies{" "}
                   <div className="icon-arrow-top-right ml-15"></div>
                 </Link>
               </div>

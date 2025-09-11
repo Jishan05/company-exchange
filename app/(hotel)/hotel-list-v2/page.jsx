@@ -38,7 +38,7 @@ const index = () => {
               >
                 <div className="offcanvas-header">
                   <h5 className="offcanvas-title" id="offcanvasLabel">
-                    Filter Hotels
+                    Filter Companies
                   </h5>
                   <button
                     type="button"

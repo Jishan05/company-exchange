@@ -1,35 +1,40 @@
+import Link from "next/link";
+
 const AppBlock = () => {
   return (
     <>
-      <h2 className="text-30 lh-15">Download the App</h2>
-      <p className="text-dark-1 pr-40 lg:pr-0 mt-15 sm:mt-5">
-        Book in advance or last-minute with GoTrip. Receive instant
-        confirmation. Access your booking info offline.
-      </p>
+      <h2 className="text-30 lh-15 fw-600">How It Works</h2>
 
-      <div className="row items-center pt-30 sm:pt-10">
-        <div className="col-auto">
-          <div className="d-flex items-center px-20 py-10 rounded-8 border-white-15 text-white bg-dark-3">
-            <div className="icon-apple text-24" />
-            <div className="ml-20">
-              <div className="text-14">Download on the</div>
-              <div className="text-15 lh-1 fw-500">Apple Store</div>
-            </div>
-          </div>
-        </div>
-        {/* End .col */}
-
-        <div className="col-auto">
-          <div className="d-flex items-center px-20 py-10 rounded-8 border-white-15 text-white bg-dark-3">
-            <div className="icon-play-market text-24" />
-            <div className="ml-20">
-              <div className="text-14">Get in on</div>
-              <div className="text-15 lh-1 fw-500">Google Play</div>
-            </div>
-          </div>
-        </div>
+      {/* Sellers Section */}
+      <div className="mt-30">
+        <h3 className="text-20 fw-600">For Sellers:</h3>
+        <ul className="mt-15 list-disc pl-20 text-dark-1">
+          <li>Share basic details of your company</li>
+          <li>Our team verifies and posts it</li>
+          <li>Buyers contact you directly — no commission</li>
+        </ul>
       </div>
-      {/* End .row */}
+
+      {/* Buyers Section */}
+      <div className="mt-30">
+        <h3 className="text-20 fw-600">For Buyers:</h3>
+        <ul className="mt-15 list-disc pl-20 text-dark-1">
+          <li>Filter listings by state, business type, GST, etc.</li>
+          <li>Get verified contact details instantly</li>
+          <li>Connect, negotiate, and close the deal</li>
+        </ul>
+      </div>
+
+      {/* CTA Button */}
+      <div className="mt-40">
+    <Link
+    href="#"
+    className="button px-30 fw-400 text-14 -outline-blue-1 h-50 text-blue-1 ml-20" 
+    style={{ backgroundColor: "#1db67a", width: "250px", color: "#fff", border: "2px solid #1db67a", fontWeight: "bold" }}
+  >
+    Start Now — It’s Free
+  </Link>
+      </div>
     </>
   );
 };

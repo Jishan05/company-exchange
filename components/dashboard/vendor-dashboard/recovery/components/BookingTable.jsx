@@ -17,9 +17,9 @@ const BookingTable = () => {
                   </div>
                 </div>
               </th>
-              <th>Name</th>
+              <th>Comapny</th>
               <th>Location</th>
-              <th>Author</th>
+              <th>Incorporation</th>
               <th>Status</th>
               <th>Reviews</th>
               <th>Date</th>
@@ -42,9 +42,9 @@ const BookingTable = () => {
 
               <td className="text-blue-1 fw-500">Crowne Plaza Hotel</td>
 
-              <td>London</td>
+              <td>Delhi</td>
 
-              <td>Ali Tufan</td>
+              <td>Year 2024</td>
 
               <td>
                 <span className="rounded-100 py-4 px-10 text-center text-14 fw-500 bg-yellow-4 text-yellow-3">

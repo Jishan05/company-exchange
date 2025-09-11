@@ -10,28 +10,28 @@ const SearchBar = () => {
   const locationSearchContent = [
     {
       id: 1,
-      name: "London",
-      address: "Greater London, United Kingdom",
+      name: "Uttar Pradesh",
+      address: "Noida, UP",
     },
     {
       id: 2,
-      name: "New York",
-      address: "New York State, United States",
+      name: "Madhya Pradesh",
+      address: "Gwalior, MP",
     },
     {
       id: 3,
-      name: "Paris",
-      address: "France",
+      name: "delhi",
+    
     },
     {
       id: 4,
-      name: "Madrid",
-      address: "Spain",
+      name: "Kolkata",
+     
     },
     {
       id: 5,
-      name: "Santorini",
-      address: "Greece",
+      name: "Punjab",
+   
     },
   ];
 
@@ -53,7 +53,7 @@ const SearchBar = () => {
             <input
               autoComplete="off"
               type="search"
-              placeholder="Where are you going?"
+              placeholder="Find Companies with Location?"
               className="js-search js-dd-focus"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}

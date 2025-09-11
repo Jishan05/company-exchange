@@ -10,7 +10,7 @@ const CallToActions = () => {
               </div>
               <div className="col-auto">
                 <h4 className="text-26 text-white fw-600">
-                  Your Travel Journey Starts Here
+                  Connecting Business, Building Trust
                 </h4>
                 <div className="text-white">
                   Sign up and we`&apos;ll send the best deals to you

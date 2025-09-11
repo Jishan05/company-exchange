@@ -1,6 +1,6 @@
 
 import Sidebar from "../common/Sidebar";
-import Header from "../../../../components/header/dashboard-header";
+import HeaderDashBoardTwo from "@/components/header/dashboard-header-two";
 import SettingsTabs from "./components/index";
 import Footer from "../common/Footer";
 
@@ -13,7 +13,7 @@ const index = () => {
 
       <div className="header-margin"></div>
 
-      <Header />
+      <HeaderDashBoardTwo />
       {/* End dashboard-header */}
 
       <div className="dashboard">

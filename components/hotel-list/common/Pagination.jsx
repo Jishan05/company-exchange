@@ -61,7 +61,7 @@ const Pagination = () => {
 
           <div className="text-center mt-30 md:mt-10">
             <div className="text-14 text-light-1">
-              1 – 20 of 300+ properties found
+              1 – 20 of 300+ companies found
             </div>
           </div>
         </div>
