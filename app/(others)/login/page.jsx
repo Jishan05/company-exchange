@@ -1,3 +1,4 @@
+
 import dynamic from "next/dynamic";
 import CallToActions from "@/components/common/CallToActions";
 import Header12 from "@/components/header/header-12";
@@ -30,10 +31,10 @@ const LogIn = () => {
                 {/* End .Login */}
 
                 <div className="row y-gap-20 pt-30">
-                  <div className="col-12">
+                  {/* <div className="col-12">
                     <div className="text-center">or sign in with</div>
-                  </div>
-                  <LoginWithSocial />
+                  </div> */}
+                  {/* <LoginWithSocial /> */}
                   <div className="col-12">
                     <div className="text-center px-30">
                       By creating an account, you agree to our Terms of Service

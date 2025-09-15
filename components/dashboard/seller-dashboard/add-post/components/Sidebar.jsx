@@ -1,7 +1,21 @@
+"use client"
+
+import { logout } from "@/features/auth/loginSlice";
 import Image from "next/image";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
 
 const SidebarOne = () => {
+
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout()); // clear Redux state
+    // localStorage.removeItem("token"); // remove token
+    window.location.href = "/login"; // redirect to login page
+  };
+
+
   const sidebarData = [
     {
       icon: "/img/dashboard/sidebar/booking.svg",
@@ -21,8 +35,6 @@ const SidebarOne = () => {
         { title: "Recovery", href: "#" },
       ],
     },
-    
-    
   ];
 
   return (
@@ -88,20 +100,20 @@ const SidebarOne = () => {
           </div>
         ))}
 
-        <div className="sidebar__item ">
-          <a
-            href="#"
+        <div className="sidebar__item">
+          <button
+            onClick={handleLogout}
             className="sidebar__button d-flex items-center text-15 lh-1 fw-500"
           >
             <Image
               width={20}
               height={20}
               src="/img/dashboard/sidebar/log-out.svg"
-              alt="image"
+              alt="Logout Icon"
               className="mr-15"
             />
             Logout
-          </a>
+          </button>
         </div>
         {/* End accordion__item */}
       </div>

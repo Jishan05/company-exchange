@@ -1,55 +1,52 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import SidebarOne from "@/components/dashboard/seller-dashboard/add-post/components/Sidebar";
 import Footer from "@/components/dashboard/dashboard/common/Footer";
 import HeaderDashBoardTwo from "@/components/header/dashboard-header-two";
 import PostForm from "@/components/dashboard/seller-dashboard/add-post/components/PostForm";
+import { useSelector } from "react-redux";
 
-export const metadata = {
-  title: "Vendor Add Post || GoTrip - Travel & Tour React NextJS Template",
-  description: "GoTrip - Travel & Tour React NextJS Template",
-};
+export default function Page() {
+  const user = useSelector((state) => state.auth.user);
 
-export default function page() {
+  // Show alert once when user data is available
+  useEffect(() => {
+    alert(JSON.stringify(user, null, 2)); // Pretty print JSON
+  }, [user]);
+
   return (
     <>
-      {/*  */}
-      {/* End Page Title */}
-
       <div className="header-margin"></div>
-
-      <HeaderDashBoardTwo />      {/* End dashboard-header */}
+      <HeaderDashBoardTwo />
 
       <div className="dashboard">
         <div className="dashboard__sidebar bg-white scroll-bar-1">
           <SidebarOne />
-          {/* End sidebar */}
         </div>
-        {/* End dashboard__sidebar */}
 
         <div className="dashboard__main">
           <div className="dashboard__content bg-light-2">
             <div className="row y-gap-20 justify-between items-end pb-60 lg:pb-40 md:pb-32">
               <div className="col-12">
-                <h1 className="text-30 lh-14 fw-600">Seller Posting</h1>
+                <h1 className="text-30 lh-14 fw-600">
+                  {user ? `Seller, ${user.fullName}` : "Seller Posting"}
+                </h1>
                 <div className="text-15 text-light-1">
-                  Lorem ipsum dolor sit amet, consectetur.
+                  Please ensure your company details are accurate before listing
+                  it for sale.
                 </div>
               </div>
-              {/* End .col-12 */}
             </div>
-            {/* End .row */}
 
             <div className="py-30 px-30 rounded-4 bg-white shadow-3">
-             <PostForm />
+              <PostForm />
             </div>
 
             <Footer />
           </div>
-          {/* End .dashboard__content */}
         </div>
-        {/* End dashbaord content */}
       </div>
-      {/* End dashbaord content */}
     </>
   );
 }

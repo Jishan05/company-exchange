@@ -1,14 +1,13 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/features/auth/loginSlice";
 
 const LoginForm = () => {
-  const [form, setForm] = useState({ phone: "", password: "" });
+  const [form, setForm] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
-
   const dispatch = useDispatch();
+
   // Handle input change
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -17,10 +16,10 @@ const LoginForm = () => {
   // Validation
   const validate = () => {
     let errs = {};
-    if (!form.phone) {
-      errs.phone = "Phone number is required";
-    } else if (!/^[0-9]{10}$/.test(form.phone)) {
-      errs.phone = "Enter a valid 10-digit phone number";
+    if (!form.email) {
+      errs.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(form.email)) {
+      errs.email = "Enter a valid email";
     }
 
     if (!form.password) {
@@ -46,29 +45,29 @@ const LoginForm = () => {
     console.log("✅ Logging in with:", form);
 
     try {
-      const res = await fetch("http://localhost:5000/api/users/login", {
+      const res = await fetch("http://localhost:5000/api/users/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          phone: form.phone,
-          password: form.password,
-        }),
+        body: JSON.stringify(form), // send { email, password }
       });
 
       const data = await res.json();
 
       if (res.ok) {
         const { user, token } = data;
-        dispatch(setUser({ user, token })); // save user + token in Redux
-        // localStorage.setItem("token", token); // optional: persist token
-        alert(`Login successful! Role: ${user.role}`);
-        alert(JSON.stringify(data, null, 2));
+        dispatch(setUser({ user, token }));
 
-        if (user.role === "seller") window.location.href = "/seller-dashboard/add-post";
-        else window.location.href = "/buyer-dashboard/add-post";
+        alert(`Login successful! Role: ${user.role}`);
+
+        if (user.role === "admin") {
+          window.location.href = "/admin/dashboard";
+        } else if (user.role === "seller") {
+          window.location.href = "/seller-dashboard/add-post";
+        } else if (user.role === "buyer") {
+          window.location.href = "/buyer-dashboard/add-post";
+        }
       } else {
-        console.error("❌ Login failed:", data);
-        alert(data.error || "Invalid phone number or password");
+        alert(data.error || "Invalid email or password");
       }
     } catch (error) {
       console.error("❌ Error:", error.message);
@@ -79,31 +78,23 @@ const LoginForm = () => {
   return (
     <form className="row y-gap-20" onSubmit={handleSubmit}>
       <div className="col-12">
-        <h1 className="text-22 fw-500">Welcome back</h1>
-        <p className="mt-10">
-          Don&apos;t have an account yet?{" "}
-          <Link href="/signup" className="text-blue-1">
-            Sign up for free
-          </Link>
-        </p>
+        <h1 className="text-22 fw-500">Admin Login</h1>
       </div>
 
-      {/* Phone Number */}
+      {/* Email */}
       <div className="col-12">
         <div className="form-input">
           <input
-            type="text"
-            name="phone"
-            value={form.phone}
+            type="email"
+            name="email"
+            value={form.email}
             onChange={handleChange}
             required
           />
-          <label className="lh-1 text-14 text-light-1">Phone Number</label>
+          <label className="lh-1 text-14 text-light-1">Email</label>
         </div>
-        {errors.phone && (
-          <p style={{ color: "red" }} className="text-red-500 text-13">
-            {errors.phone}
-          </p>
+        {errors.email && (
+          <p style={{ color: "red" }}>{errors.email}</p>
         )}
       </div>
 
@@ -120,9 +111,7 @@ const LoginForm = () => {
           <label className="lh-1 text-14 text-light-1">Password</label>
         </div>
         {errors.password && (
-          <p style={{ color: "red" }} className="text-red-500 text-13">
-            {errors.password}
-          </p>
+          <p style={{ color: "red" }}>{errors.password}</p>
         )}
       </div>
 
