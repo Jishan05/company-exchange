@@ -1,13 +1,14 @@
 import dynamic from "next/dynamic";
-import CallToActions from "@/components/common/CallToActions";
+// import CallToActions from "@/components/common/CallToActions";
+import CallToActions from '../../../components/common/CallToActions';
 import Header12 from "@/components/header/header-12";
 import DefaultFooter from "@/components/footer/default";
 import LoginWithSocial from "@/components/common/LoginWithSocial";
 import SignUpForm from "@/components/common/SignUpForm";
 
 export const metadata = {
-  title: "Sign Up || GoTrip - Travel & Tour React NextJS Template",
-  description: "GoTrip - Travel & Tour React NextJS Template",
+  title: "Sign - CompanyXchange",
+  description: "CompanyXchange",
 };
 
 const SignUp = () => {

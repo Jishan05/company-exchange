@@ -7,8 +7,8 @@ import LoginWithSocial from "@/components/common/LoginWithSocial";
 import LoginForm from "@/components/common/LoginForm";
 
 export const metadata = {
-  title: "Login || GoTrip - Travel & Tour React NextJS Template",
-  description: "GoTrip - Travel & Tour React NextJS Template",
+  title: "Login - CompanyXchange ",
+  description: "CompanyXchange",
 };
 
 const LogIn = () => {

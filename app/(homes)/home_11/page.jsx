@@ -1,4 +1,7 @@
 import dynamic from "next/dynamic";
+
+
+
 import WhyChooseUs from "@/components/home/home-11/WhyChoose";
 import DefaultFooter from "@/components/footer/default";
 import Testimonial from "@/components/home/home-2/Testimonial";
@@ -9,7 +12,6 @@ import CallToActions from "@/components/common/CallToActions";
 import AppBanner from "@/components/home/home-6/AppBanner";
 import ElementOne from "@/components/home/home-11/ElementOne";
 import ElementTwo from "@/components/home/home-11/ElementTwo";
-
 
 export const metadata = {
   title: "Home-1 || GoTrip - Travel & Tour React NextJS Template",
@@ -47,13 +49,13 @@ const Home_11 = () => {
       <section className="mt-30 mb-60">
         <div className="container">
           <div className="row y-gap-20 justify-between">
-           <WhyChooseUs />
+            <WhyChooseUs />
           </div>
         </div>
       </section>
-<ElementOne />
-<ElementTwo />
-       <section className="layout-pt-lg layout-pb-lg bg-dark-3">
+      <ElementOne />
+      <ElementTwo />
+      <section className="layout-pt-lg layout-pb-lg bg-dark-3">
         <div className="container">
           <div className="row y-gap-60">
             <div className="col-xl-5 col-lg-6">
@@ -67,18 +69,13 @@ const Home_11 = () => {
             {/* End .col */}
           </div>
           {/* End .row */}
-
-         
         </div>
       </section>
       {/* End testimonial and brand sections Section */}
 
+      <AppBanner />
 
- <AppBanner />
-
-    
       {/* End testimonial Section */}
-     
 
       <CallToActions />
       {/* End Call To Actions Section */}

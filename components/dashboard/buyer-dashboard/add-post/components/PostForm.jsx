@@ -1,7 +1,9 @@
 "use client";
 
+import { da } from "@faker-js/faker";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const PostForm = () => {
   const [formData, setFormData] = useState({
@@ -84,8 +86,7 @@ const PostForm = () => {
       const data = await res.json();
 
       if (res.ok) {
-        alert("✅ Buyer post created successfully!");
-        console.log(data);
+        toast.success("uyer post created successfully!");
 
         setFormData({
           user_id: null,
@@ -101,11 +102,10 @@ const PostForm = () => {
           tags: [],
         });
       } else {
-        alert(data.error || "Failed to create buyer post");
+        toast.error(da.error || "Failed to create buyer post");
       }
     } catch (err) {
-      console.error("❌ Error:", err);
-      alert("Something went wrong!");
+      toast.error("Something went wrong!");
     }
   };
 
@@ -171,59 +171,75 @@ const PostForm = () => {
             onChange={handleChange}
           >
             <option value="">Select ROC State</option>
-            <option value="ahmedabad-dnh">
-              ROC Ahmedabad – Dadra & Nagar Haveli
+            <option value="Ahmedabad – Dadra & Nagar Haveli">
+              Ahmedabad – Dadra & Nagar Haveli
             </option>
-            <option value="ahmedabad-dd">ROC Ahmedabad – Daman & Diu</option>
-            <option value="bangalore">ROC Bangalore – Karnataka</option>
-            <option value="chandigarh-ch">ROC Chandigarh – Chandigarh</option>
-            <option value="chandigarh-hr">ROC Chandigarh – Haryana</option>
-            <option value="chandigarh-hp">
-              ROC Chandigarh – Himachal Pradesh
+            <option value="Ahmedabad – Daman & Diu">
+              Ahmedabad – Daman & Diu
             </option>
-            <option value="chandigarh-pb">ROC Chandigarh – Punjab</option>
-            <option value="chennai-tn">
-              ROC Chennai – Tamil Nadu (except Coimbatore region)
+            <option value="Bangalore – Karnataka">Bangalore – Karnataka</option>
+            <option value="Chandigarh – Chandigarh">
+              Chandigarh – Chandigarh
             </option>
-            <option value="chennai-an">
-              ROC Chennai – Andaman & Nicobar Islands
+            <option value="Chandigarh – Haryana">Chandigarh – Haryana</option>
+            <option value="Chandigarh – Himachal Pradesh">
+              Chandigarh – Himachal Pradesh
             </option>
-            <option value="coimbatore-tn">
-              ROC Coimbatore – Tamil Nadu (Coimbatore region)
+            <option value="Chandigarh – Punjab">Chandigarh – Punjab</option>
+            <option value="Chennai – Tamil Nadu (except Coimbatore)">
+              Chennai – Tamil Nadu (except Coimbatore)
             </option>
-            <option value="cuttack-or">ROC Cuttack – Odisha</option>
-            <option value="delhi">ROC Delhi – Delhi</option>
-            <option value="ernakulam-kl">ROC Ernakulam – Kerala</option>
-            <option value="ernakulam-ld">ROC Ernakulam – Lakshadweep</option>
-            <option value="goa">ROC Goa – Goa</option>
-            <option value="gwalior-mp">ROC Gwalior – Madhya Pradesh</option>
-            <option value="gwalior-cg">ROC Gwalior – Chhattisgarh</option>
-            <option value="hyderabad-ap">ROC Hyderabad – Andhra Pradesh</option>
-            <option value="hyderabad-ts">ROC Hyderabad – Telangana</option>
-            <option value="jaipur-rj">ROC Jaipur – Rajasthan</option>
-            <option value="jammu-jk">ROC Jammu – Jammu & Kashmir</option>
-            <option value="jammu-ladakh">ROC Jammu – Ladakh</option>
-            <option value="kanpur-up">ROC Kanpur – Uttar Pradesh</option>
-            <option value="kanpur-uk">ROC Kanpur – Uttarakhand</option>
-            <option value="kolkata-wb">ROC Kolkata – West Bengal</option>
-            <option value="kolkata-sk">ROC Kolkata – Sikkim</option>
-            <option value="mumbai-mum">
-              ROC Mumbai – Maharashtra (Mumbai region)
+            <option value="Chennai – Andaman & Nicobar">
+              Chennai – Andaman & Nicobar
             </option>
-            <option value="pune-mh">
-              ROC Pune – Maharashtra (Pune region)
+            <option value="Coimbatore – Tamil Nadu (Coimbatore)">
+              Coimbatore – Tamil Nadu (Coimbatore)
             </option>
-            <option value="patna-br">ROC Patna – Bihar</option>
-            <option value="patna-jh">ROC Patna – Jharkhand</option>
-            <option value="shillong-ar">
-              ROC Shillong – Arunachal Pradesh
+            <option value="Cuttack – Odisha">Cuttack – Odisha</option>
+            <option value="Delhi – Delhi">Delhi – Delhi</option>
+            <option value="Ernakulam – Kerala">Ernakulam – Kerala</option>
+            <option value="Ernakulam – Lakshadweep">
+              Ernakulam – Lakshadweep
             </option>
-            <option value="shillong-as">ROC Shillong – Assam</option>
-            <option value="shillong-mn">ROC Shillong – Manipur</option>
-            <option value="shillong-ml">ROC Shillong – Meghalaya</option>
-            <option value="shillong-mz">ROC Shillong – Mizoram</option>
-            <option value="shillong-nl">ROC Shillong – Nagaland</option>
-            <option value="shillong-tr">ROC Shillong – Tripura</option>
+            <option value="Goa – Goa">Goa – Goa</option>
+            <option value="Gwalior – Madhya Pradesh">
+              Gwalior – Madhya Pradesh
+            </option>
+            <option value="Gwalior – Chhattisgarh">
+              Gwalior – Chhattisgarh
+            </option>
+            <option value="Hyderabad – Andhra Pradesh">
+              Hyderabad – Andhra Pradesh
+            </option>
+            <option value="Hyderabad – Telangana">Hyderabad – Telangana</option>
+            <option value="Jaipur – Rajasthan">Jaipur – Rajasthan</option>
+            <option value="Jammu – Jammu & Kashmir">
+              Jammu – Jammu & Kashmir
+            </option>
+            <option value="Jammu – Ladakh">Jammu – Ladakh</option>
+            <option value="Kanpur – Uttar Pradesh">
+              Kanpur – Uttar Pradesh
+            </option>
+            <option value="Kanpur – Uttarakhand">Kanpur – Uttarakhand</option>
+            <option value="Kolkata – West Bengal">Kolkata – West Bengal</option>
+            <option value="Kolkata – Sikkim">Kolkata – Sikkim</option>
+            <option value="Mumbai – Maharashtra (Mumbai)">
+              Mumbai – Maharashtra (Mumbai)
+            </option>
+            <option value="Pune – Maharashtra (Pune)">
+              Pune – Maharashtra (Pune)
+            </option>
+            <option value="Patna – Bihar">Patna – Bihar</option>
+            <option value="Patna – Jharkhand">Patna – Jharkhand</option>
+            <option value="Shillong – Arunachal Pradesh">
+              Shillong – Arunachal Pradesh
+            </option>
+            <option value="Shillong – Assam">Shillong – Assam</option>
+            <option value="Shillong – Manipur">Shillong – Manipur</option>
+            <option value="Shillong – Meghalaya">Shillong – Meghalaya</option>
+            <option value="Shillong – Mizoram">Shillong – Mizoram</option>
+            <option value="Shillong – Nagaland">Shillong – Nagaland</option>
+            <option value="Shillong – Tripura">Shillong – Tripura</option>
           </select>
         </div>
         {errors.rocState && (
@@ -243,23 +259,37 @@ const PostForm = () => {
             onChange={handleChange}
           >
             <option value="">Select Business Activity</option>
-            <option value="manufacturing">Manufacturing</option>
-            <option value="it">Information Technology</option>
-            <option value="trading">Trading & Distribution</option>
-            <option value="software">Information Technology & Software</option>
-            <option value="finance">Financial Services</option>
-            <option value="real-estate">Real Estate</option>
-            <option value="construction">Infrastructure & Construction</option>
-            <option value="logistics">Logistics & Warehousing</option>
-            <option value="hospitality">Hospitality, Travel & Tourism</option>
-            <option value="healthcare">Healthcare & Life Sciences</option>
-            <option value="education">Education & Training</option>
-            <option value="energy">Energy & Utilities</option>
-            <option value="agriculture">Agriculture & Food Processing</option>
-            <option value="media">
+            <option value="Manufacturing">Manufacturing</option>
+            <option value="Information Technology">
+              Information Technology
+            </option>
+            <option value="Trading & Distribution">
+              Trading & Distribution
+            </option>
+            <option value="IT & Software">IT & Software</option>
+            <option value="Financial Services">Financial Services</option>
+            <option value="Real Estate">Real Estate</option>
+            <option value="Infrastructure & Construction">
+              Infrastructure & Construction
+            </option>
+            <option value="Logistics & Warehousing">
+              Logistics & Warehousing
+            </option>
+            <option value="Hospitality, Travel & Tourism">
+              Hospitality, Travel & Tourism
+            </option>
+            <option value="Healthcare & Life Sciences">
+              Healthcare & Life Sciences
+            </option>
+            <option value="Education & Training">Education & Training</option>
+            <option value="Energy & Utilities">Energy & Utilities</option>
+            <option value="Agriculture & Food Processing">
+              Agriculture & Food Processing
+            </option>
+            <option value="Media, Entertainment & Professional Services">
               Media, Entertainment & Professional Services
             </option>
-            <option value="others">Others</option>
+            <option value="Others">Others</option>
           </select>
         </div>
         {errors.activity && (

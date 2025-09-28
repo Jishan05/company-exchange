@@ -9,7 +9,6 @@ const SignUpForm = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    role: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -36,8 +35,6 @@ const SignUpForm = () => {
 
     if (form.password !== form.confirmPassword)
       newErrors.confirmPassword = "Passwords do not match";
-
-    if (!form.role) newErrors.role = "Please select Seller or Buyer";
 
     return newErrors;
   };
@@ -175,36 +172,6 @@ const SignUpForm = () => {
             {errors.confirmPassword}
           </p>
         )}
-      </div>
-
-      {/* Role radio */}
-      <div className="col-12">
-        <label className="text-14 fw-500 mb-10 d-block">Register As</label>
-        <div className="d-flex items-center">
-          <label className="d-flex items-center mr-10">
-            <input
-              className="mr-5"
-              type="radio"
-              name="role"
-              value="seller"
-              checked={form.role === "seller"}
-              onChange={handleChange}
-            />
-            Seller
-          </label>
-          <label className="d-flex items-center mr-10">
-            <input
-              className="mr-5"
-              type="radio"
-              name="role"
-              value="buyer"
-              checked={form.role === "buyer"}
-              onChange={handleChange}
-            />
-            Buyer
-          </label>
-        </div>
-        {errors.role && <p className="text-red-500 text-13">{errors.role}</p>}
       </div>
 
       <div className="col-12">

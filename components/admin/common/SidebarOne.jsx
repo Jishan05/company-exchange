@@ -1,35 +1,23 @@
-"use client";
-
-import { logout } from "@/features/auth/loginSlice";
 import Image from "next/image";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
 
 const SidebarOne = () => {
-  const dispatch = useDispatch();
-
-  const handleLogout = () => {
-    dispatch(logout()); // clear Redux state
-    // localStorage.removeItem("token"); // remove token
-    window.location.href = "/login"; // redirect to login page
-  };
-
   const sidebarData = [
     {
       icon: "/img/dashboard/sidebar/booking.svg",
-      title: "Create",
+      title: "Post Status",
       links: [
-        { title: "Create Seller Post", href: "/dashboard/create-seller-post" },
-        { title: "Create Buyer Post", href: "/dashboard/create-buyer-post" },
+        { title: "Seller Post", href: "/admin/dashboard/post-status/seller" },
+        { title: "Buyer Post", href: "/admin/dashboard/post-status/buyer" },
       ],
     },
     {
       icon: "/img/dashboard/sidebar/booking.svg",
-      title: "Manage",
+      title: "Manage Buyer",
       links: [
-        { title: "All Buyer", href: "#" },
-        { title: "Add Buyer", href: "#" },
-        { title: "Recovery", href: "#" },
+        { title: "All Buyer", href: "/admin/dashboard/manage-buyer/all" },
+        { title: "Add Buyer", href: "/admin/dashboard/manage-buyer/add" },
+        { title: "Recovery", href: "/admin/dashboard/manage-buyer/recovery" },
       ],
     },
   ];
@@ -37,9 +25,10 @@ const SidebarOne = () => {
   return (
     <>
       <div className="sidebar -dashboard" id="vendorSidebarMenu">
+        {/* Dashboard Link */}
         <div className="sidebar__item ">
           <Link
-            href="/dashboard"
+            href="/admin/dashboard"
             className="sidebar__button d-flex items-center text-15 lh-1 fw-500"
           >
             <Image
@@ -77,6 +66,7 @@ const SidebarOne = () => {
                     <div className="icon-chevron-sm-down text-7" />
                   </div>
                 </div>
+
                 <div
                   id={`sidebarItem${index}`}
                   className="collapse"
@@ -97,20 +87,21 @@ const SidebarOne = () => {
           </div>
         ))}
 
-        <div className="sidebar__item">
-          <button
-            onClick={handleLogout}
+        {/* Logout Link */}
+        <div className="sidebar__item ">
+          <Link
+            href="/"
             className="sidebar__button d-flex items-center text-15 lh-1 fw-500"
           >
             <Image
               width={20}
               height={20}
               src="/img/dashboard/sidebar/log-out.svg"
-              alt="Logout Icon"
+              alt="image"
               className="mr-15"
             />
             Logout
-          </button>
+          </Link>
         </div>
         {/* End accordion__item */}
       </div>

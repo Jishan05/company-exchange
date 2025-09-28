@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/features/auth/loginSlice";
+import { toast } from "react-toastify";
 
 const LoginForm = () => {
   const [form, setForm] = useState({ phone: "", password: "" });
@@ -59,20 +60,21 @@ const LoginForm = () => {
 
       if (res.ok) {
         const { user, token } = data;
-        dispatch(setUser({ user, token })); // save user + token in Redux
-        // localStorage.setItem("token", token); // optional: persist token
-        alert(`Login successful! Role: ${user.role}`);
-        alert(JSON.stringify(data, null, 2));
-
-        if (user.role === "seller") window.location.href = "/seller-dashboard/add-post";
-        else window.location.href = "/buyer-dashboard/add-post";
+        dispatch(setUser({ user, token }));
+        toast.success("Login successful!");
+        if (user.role === "admin") {
+          window.location.href = "/admin/dashboard";
+        } else if (user.role === "user") {
+          window.location.href = "/dashboard";
+        } else {
+          toast.error("Invalid role");
+        }
       } else {
-        console.error("❌ Login failed:", data);
-        alert(data.error || "Invalid phone number or password");
+        toast.error(data.error);
       }
     } catch (error) {
       console.error("❌ Error:", error.message);
-      alert("Something went wrong. Please try again.");
+      toast.error("Something went wrong.");
     }
   };
 

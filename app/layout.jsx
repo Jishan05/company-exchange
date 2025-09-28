@@ -13,6 +13,7 @@ import "../styles/index.scss";
 import { Provider } from "react-redux";
 import { persistor, store } from "../store/store";
 import { PersistGate } from "redux-persist/integration/react";
+import { ToastContainer } from "react-toastify";
 
 if (typeof window !== "undefined") {
   require("bootstrap/dist/js/bootstrap");
@@ -46,6 +47,7 @@ export default function RootLayout({ children }) {
           <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
               {children}
+              <ToastContainer position="top-right" autoClose={3000} />
             </PersistGate>
             <SrollTop />
           </Provider>
