@@ -10,28 +10,26 @@ const SearchBar = () => {
   const locationSearchContent = [
     {
       id: 1,
-      name: "London",
-      address: "Greater London, United Kingdom",
+      name: "Uttar Pradesh",
+      address: "Noida",
     },
     {
       id: 2,
-      name: "New York",
-      address: "New York State, United States",
+      name: "Delhi",
     },
     {
       id: 3,
-      name: "Paris",
-      address: "France",
+      name: "Kolkata",
     },
     {
       id: 4,
-      name: "Madrid",
-      address: "Spain",
+      name: "Madhya Pradesh",
+      address: "Gwalior",
     },
     {
       id: 5,
-      name: "Santorini",
-      address: "Greece",
+      name: "Madhya Pradesh",
+      address: "Indore",
     },
   ];
 
@@ -53,7 +51,7 @@ const SearchBar = () => {
             <input
               autoComplete="off"
               type="search"
-              placeholder="Where are you going?"
+              placeholder="Where are you find?"
               className="js-search js-dd-focus"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}

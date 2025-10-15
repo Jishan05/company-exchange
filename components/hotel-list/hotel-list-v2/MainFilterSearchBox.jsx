@@ -1,5 +1,4 @@
 import DateSearch from "../common/DateSearch";
-import GuestSearch from "./GuestSearch";
 import LocationSearch from "./LocationSearch";
 
 const MainFilterSearchBox = () => {
@@ -14,7 +13,7 @@ const MainFilterSearchBox = () => {
       <div className="col-12">
         <div className="searchMenu-date px-20 py-10 bg-white rounded-4 -left js-form-dd js-calendar">
           <div>
-            <h4 className="text-15 fw-500 ls-2 lh-16">Check in - Check out</h4>
+            <h4 className="text-15 fw-500 ls-2 lh-16">Incorporated After</h4>
             <DateSearch />
           </div>
         </div>
@@ -23,7 +22,12 @@ const MainFilterSearchBox = () => {
       {/* End .col-12 */}
 
       <div className="col-12">
-        <GuestSearch />
+         <div className="form-input bg-white ">
+            <input type="text" required />
+            <label className="lh-1 text-16 text-light-1">
+              Budget
+            </label>
+          </div>
         {/* End guest */}
       </div>
       {/* End .col-12 */}

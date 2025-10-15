@@ -9,12 +9,12 @@ const Copyright = () => {
             <div className="d-flex items-center">
               © {new Date().getFullYear()} by
               <a
-                href="https://themeforest.net/user/ib-themes"
+                href="#"
                 className="mx-2"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                ib-themes
+                Company Sell Purchase 
               </a>
               All rights reserved.
             </div>
@@ -23,9 +23,10 @@ const Copyright = () => {
 
           <div className="col-auto">
             <div className="d-flex x-gap-15">
-              <a href="#">Privacy</a>
-              <a href="#">Terms</a>
-              <a href="#">Site Map</a>
+              <a href="/about">About Us</a>
+              <a href="/contact">Contact</a>
+              <a href="/privacy">Privacy Policy</a>
+              <a href="/terms">Terms</a>
             </div>
           </div>
           {/* End .col */}
@@ -36,20 +37,7 @@ const Copyright = () => {
 
       <div className="col-auto">
         <div className="row y-gap-10 items-center">
-          <div className="col-auto">
-            <div className="d-flex items-center">
-              <button className="d-flex items-center text-14 fw-500 text-dark-1 mr-10">
-                <i className="icon-globe text-16 mr-10" />
-                <span className="underline">English (US)</span>
-              </button>
-              <button className="d-flex items-center text-14 fw-500 text-dark-1">
-                <i className="icon-usd text-16 mr-10" />
-                <span className="underline">USD</span>
-              </button>
-            </div>
-          </div>
-          {/* End .col */}
-
+         
           <div className="col-auto">
             <div className="d-flex x-gap-20 items-center">
               <Social />

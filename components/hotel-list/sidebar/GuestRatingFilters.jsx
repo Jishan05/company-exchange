@@ -1,9 +1,9 @@
 const GuestRatingFilters = () => {
   const options = [
-    { label: "Any", value: "", count: 92 },
-    { label: "Wonderful 4.5+", value: "4.5", count: 45 },
-    { label: "Very good 4+", value: "4", count: 21 },
-    { label: "Good 3.5+", value: "3.5", count: 78 },
+    { label: "GST", value: "", count: 92 },
+    { label: "ROC", value: "4.5", count: 45 },
+    { label: "ITR Filed", value: "4", count: 21 },
+    
   ];
 
   return (

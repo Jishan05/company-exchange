@@ -6,7 +6,7 @@ import InputRange from "react-input-range";
 
 const PirceSlider = () => {
   const [price, setPrice] = useState({
-    value: { min: 0, max: 500 },
+    value: { min: 5000, max: 100000 },
   });
 
   const handleOnChange = (value) => {
@@ -19,8 +19,8 @@ const PirceSlider = () => {
 
       <div className="d-flex justify-between mb-20">
         <div className="text-15 text-dark-1">
-          <span className="js-lower mx-1">${price.value.min}</span>-
-          <span className="js-upper mx-1">${price.value.max}</span>
+          <span className="js-lower mx-1">Rs{price.value.min}</span>-
+          <span className="js-upper mx-1">Rs{price.value.max}</span>
         </div>
       </div>
 
@@ -28,7 +28,7 @@ const PirceSlider = () => {
         <InputRange
           formatLabel={(value) => ``}
           minValue={0}
-          maxValue={2000}
+          maxValue={300000}
           value={price.value}
           onChange={(value) => handleOnChange(value)}
         />

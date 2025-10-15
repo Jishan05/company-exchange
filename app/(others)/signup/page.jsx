@@ -1,13 +1,14 @@
 import dynamic from "next/dynamic";
-import CallToActions from "@/components/common/CallToActions";
-import DefaultHeader from "@/components/header/default-header";
+// import CallToActions from "@/components/common/CallToActions";
+import CallToActions from '../../../components/common/CallToActions';
+import Header12 from "@/components/header/header-12";
 import DefaultFooter from "@/components/footer/default";
 import LoginWithSocial from "@/components/common/LoginWithSocial";
 import SignUpForm from "@/components/common/SignUpForm";
 
 export const metadata = {
-  title: "Sign Up || GoTrip - Travel & Tour React NextJS Template",
-  description: "GoTrip - Travel & Tour React NextJS Template",
+  title: "Sign - CompanyXchange",
+  description: "CompanyXchange",
 };
 
 const SignUp = () => {
@@ -18,7 +19,7 @@ const SignUp = () => {
       <div className="header-margin"></div>
       {/* header top margin */}
 
-      <DefaultHeader />
+      <Header12 />
       {/* End Header 1 */}
 
       <section className="layout-pt-lg layout-pb-lg bg-blue-2">
@@ -30,10 +31,10 @@ const SignUp = () => {
                 {/* End SignUP */}
 
                 <div className="row y-gap-20 pt-30">
-                  <div className="col-12">
+                  {/* <div className="col-12">
                     <div className="text-center">or sign in with</div>
-                  </div>
-                  <LoginWithSocial />
+                  </div> */}
+                  {/* <LoginWithSocial /> */}
                   <div className="col-12">
                     <div className="text-center px-30">
                       By creating an account, you agree to our Terms of Service

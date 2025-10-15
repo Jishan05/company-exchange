@@ -1,3 +1,5 @@
+"use client";
+
 import CallToActions from "@/components/common/CallToActions";
 import Header11 from "@/components/header/header-11";
 import DefaultFooter from "@/components/footer/default";
@@ -5,13 +7,61 @@ import TopHeaderFilter from "@/components/hotel-list/hotel-list-v2/TopHeaderFilt
 import HotelProperties from "@/components/hotel-list/hotel-list-v2/HotelProperties";
 import Pagination from "@/components/hotel-list/common/Pagination";
 import Sidebar from "@/components/hotel-list/hotel-list-v2/Sidebar";
-
-export const metadata = {
-  title: "Hotel List v2 || GoTrip - Travel & Tour React NextJS Template",
-  description: "GoTrip - Travel & Tour React NextJS Template",
-};
+import { useEffect, useState } from "react";
 
 const index = () => {
+  const [activeList, setActiveList] = useState("Seller");
+  const [sellerList, setSellerList] = useState([]);
+  const [buyerList, setBuyerList] = useState([]);
+
+  const handleClick = (val) => {
+    setActiveList(val);
+  };
+
+  const fetchSellersData = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/sellers", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setSellerList(data)
+      } else {
+        console.log('err', data.error);
+        alert(data.error || "Invalid phone number or password");
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const fetchBuyersData = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/buyers", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setBuyerList(data)
+      } else {
+        alert(data.error || "Invalid phone number or password");
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchSellersData()
+    fetchBuyersData()
+  }, [activeList]);
+
   return (
     <>
       {/* End Page Title */}
@@ -38,7 +88,7 @@ const index = () => {
               >
                 <div className="offcanvas-header">
                   <h5 className="offcanvas-title" id="offcanvasLabel">
-                    Filter Hotels
+                    Filter Companies
                   </h5>
                   <button
                     type="button"
@@ -61,11 +111,12 @@ const index = () => {
             {/* End col */}
 
             <div className="col-xl-9 ">
-              <TopHeaderFilter />
+              <TopHeaderFilter list={activeList === 'Seller' ? sellerList : buyerList} onClick={handleClick} />
+              <h1>{activeList}</h1>
               <div className="mt-30"></div>
               {/* End mt--30 */}
               <div className="row y-gap-30">
-                <HotelProperties />
+                <HotelProperties list={activeList === 'Seller' ? sellerList : buyerList} />
               </div>
               {/* End .row */}
               <Pagination />

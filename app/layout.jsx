@@ -11,7 +11,9 @@ import "swiper/css/effect-cards";
 import "aos/dist/aos.css";
 import "../styles/index.scss";
 import { Provider } from "react-redux";
-import { store } from "../store/store";
+import { persistor, store } from "../store/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { ToastContainer } from "react-toastify";
 
 if (typeof window !== "undefined") {
   require("bootstrap/dist/js/bootstrap");
@@ -23,6 +25,7 @@ export default function RootLayout({ children }) {
       duration: 1200,
       once: true,
     });
+    console.log("monish");
   }, []);
   return (
     <html lang="en">
@@ -42,7 +45,10 @@ export default function RootLayout({ children }) {
       <body>
         <main>
           <Provider store={store}>
-            {children}
+            <PersistGate loading={null} persistor={persistor}>
+              {children}
+              <ToastContainer position="top-right" autoClose={3000} />
+            </PersistGate>
             <SrollTop />
           </Provider>
         </main>

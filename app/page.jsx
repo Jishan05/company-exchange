@@ -1,9 +1,10 @@
-import Wrapper from "@/components/layout/Wrapper";
-import MainHome from "../app/(homes)/home_1/page";
+// import Wrapper from "@/components/layout/Wrapper";
+import Wrapper from '../components/layout/Wrapper';
+import MainHome from "../app/(homes)/home_11/page";
 
 export const metadata = {
-  title: "Home-1 || GoTrip - Travel & Tour React NextJS Template",
-  description: "GoTrip - Travel & Tour React NextJS Template",
+  title: "CompanyXchange - Buy or Sell Companies — Fast, Direct, and Verified",
+  description: "Company Xchange - Buy or Sell Companies — Fast, Direct, and Verified",
 };
 
 export default function Home() {

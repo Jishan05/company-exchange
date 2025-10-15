@@ -1,12 +1,14 @@
 import dynamic from "next/dynamic";
 import CallToActions from "@/components/common/CallToActions";
-import DefaultHeader from "@/components/header/default-header";
+
 import DefaultFooter from "@/components/footer/default";
-import TermsConent from "@/components/common/TermsConent";
+import Image from "next/image";
+import TermsOfUse from "@/components/terms/Terms";
+import Header12 from "@/components/header/header-12";
 
 export const metadata = {
-  title: "Terms & Conditions || GoTrip - Travel & Tour React NextJS Template",
-  description: "GoTrip - Travel & Tour React NextJS Template",
+  title: "Company Sell Purchase || Buy or Sell Companies — Fast, Direct, and Verified",
+  description: "Buy or Sell Companies — Fast, Direct, and Verified",
 };
 
 const Terms = () => {
@@ -17,13 +19,41 @@ const Terms = () => {
       <div className="header-margin"></div>
       {/* header top margin */}
 
-      <DefaultHeader />
+      <Header12 />
       {/* End Header 1 */}
+
+       <section className="section-bg layout-pt-lg layout-pb-lg">
+              <div className="section-bg__item col-12">
+                <Image
+                  width={1920}
+                  height={400}
+                  src="/img/pages/about/1.png"
+                  alt="image"
+                  priority
+                />
+              </div>
+              {/* End section-bg__item */}
+      
+              <div className="container">
+                <div className="row justify-center text-center">
+                  <div className="col-xl-6 col-lg-8 col-md-10">
+                    <h1 className="text-40 md:text-25 fw-600 text-white">
+                      Terms of Use
+                    </h1>
+                    <div className="text-white mt-15">
+                      Buy or Sell Companies — Fast, Direct, and Verified
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* End .container */}
+            </section>
+            {/* End About Banner Section */}
 
       <section className="layout-pt-lg layout-pb-lg">
         <div className="container">
           <div className="tabs js-tabs">
-            <TermsConent />
+           <TermsOfUse />
           </div>
         </div>
       </section>

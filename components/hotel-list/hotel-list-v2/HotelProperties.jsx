@@ -1,4 +1,5 @@
 
+
 'use client'
 
 import { hotelsData } from "../../../data/hotels";
@@ -14,41 +15,7 @@ const HotelProperties = () => {
         <div className="col-12" key={item?.id}>
           <div className="border-top-light pt-30">
             <div className="row x-gap-20 y-gap-20">
-              <div className="col-md-auto">
-                <div className="cardImage ratio ratio-1:1 w-250 md:w-1/1 rounded-4">
-                  <div className="cardImage__content">
-                    <div className="cardImage-slider rounded-4  custom_inside-slider">
-                      <Swiper
-                        className="mySwiper"
-                        modules={[Pagination, Navigation]}
-                        pagination={{
-                          clickable: true,
-                        }}
-                        navigation={true}
-                      >
-                        {item?.slideImg?.map((slide, i) => (
-                          <SwiperSlide key={i}>
-                            <Image
-                              width={250}
-                              height={250}
-                              className="rounded-4 col-12 js-lazy"
-                              src={slide}
-                              alt="image"
-                            />
-                          </SwiperSlide>
-                        ))}
-                      </Swiper>
-                    </div>
-                  </div>
-                  {/* End image */}
-
-                  <div className="cardImage__wishlist">
-                    <button className="button -blue-1 bg-white size-30 rounded-full shadow-2">
-                      <i className="icon-heart text-12"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
+              
               {/* End .col */}
 
               <div className="col-md">

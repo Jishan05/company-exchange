@@ -1,4 +1,4 @@
-import AppBlock from "../../block/AppBlock";
+import HomeBlock from "@/components/block/HomeBlock";
 
 const AppBanner = () => {
   return (
@@ -6,12 +6,12 @@ const AppBanner = () => {
       <div className="container">
         <div className="row y-gap-30 items-center justify-between">
           <div className="col-xl-6">
-            <img src="/img/app/2.svg" alt="image" />
+            <img src="/img/app/st-1.png" alt="image" />
           </div>
           {/* End .col for image left */}
 
           <div className="col-xl-5">
-            <AppBlock />
+            <HomeBlock />
           </div>
           {/* End .col */}
         </div>
