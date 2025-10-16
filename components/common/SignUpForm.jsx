@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { BASE_URL } from "@/features/url";
 
 const SignUpForm = () => {
   const [form, setForm] = useState({
@@ -54,7 +55,7 @@ const SignUpForm = () => {
     console.log("✅ Form submitted successfully:", form);
 
     try {
-      const response = await fetch("${BASE_URL}/api/users/register", {
+      const response = await fetch(`http://72.60.218.40:5000/api/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

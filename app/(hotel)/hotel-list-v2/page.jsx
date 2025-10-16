@@ -8,6 +8,7 @@ import HotelProperties from "@/components/hotel-list/hotel-list-v2/HotelProperti
 import Pagination from "@/components/hotel-list/common/Pagination";
 import Sidebar from "@/components/hotel-list/hotel-list-v2/Sidebar";
 import { useEffect, useState } from "react";
+import { BASE_URL } from "@/features/url";
 
 const index = () => {
   const [activeList, setActiveList] = useState("Seller");
@@ -20,7 +21,7 @@ const index = () => {
 
   const fetchSellersData = async () => {
     try {
-      const res = await fetch("${BASE_URL}/api/sellers", {
+      const res = await fetch(`http://72.60.218.40:5000/api/sellers`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -40,7 +41,7 @@ const index = () => {
 
   const fetchBuyersData = async () => {
     try {
-      const res = await fetch("${BASE_URL}/api/buyers", {
+      const res = await fetch(`http://72.60.218.40:5000/api/buyers`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import FileUploader from "./FileUploader";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { BASE_URL } from "@/features/url";
 
 const PostForm = () => {
   const [formData, setFormData] = useState({
@@ -91,7 +92,7 @@ const PostForm = () => {
     };
 
     try {
-      const res = await fetch("${BASE_URL}/api/sellers/create", {
+      const res = await fetch(`http://72.60.218.40:5000/api/sellers/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(company_data), //d full seller data

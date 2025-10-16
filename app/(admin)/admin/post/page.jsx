@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import InputRange from "react-input-range";
+import { BASE_URL } from "@/features/url";
 
 // -------------------- Main Page --------------------
 export default function Page() {
@@ -500,7 +501,7 @@ const HotelsList = ({ filters }) => {
       }).toString();
 
       const res = await fetch(
-        `${BASE_URL}/api/sellers/getApprovedSellers?${query}`
+        `http://72.60.218.40:5000/api/sellers/getApprovedSellers?${query}`
       );
       const data = await res.json();
       setSellers(data?.data || []);

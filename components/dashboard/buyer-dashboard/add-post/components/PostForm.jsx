@@ -4,6 +4,7 @@ import { da } from "@faker-js/faker";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { BASE_URL } from "@/features/url";
 
 const PostForm = () => {
   const [formData, setFormData] = useState({
@@ -76,8 +77,11 @@ const PostForm = () => {
       user_id: user.id,
     };
 
+    console.log("BASE_URL is:", BASE_URL);
+
     try {
-      const res = await fetch("${BASE_URL}/api/buyers/create", {
+      
+      const res = await fetch(`http://72.60.218.40:5000/api/buyers/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(buyer_data),

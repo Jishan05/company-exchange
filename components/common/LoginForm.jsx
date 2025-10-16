@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/features/auth/loginSlice";
 import { toast } from "react-toastify";
+import { BASE_URL } from "@/features/url";
 
 const LoginForm = () => {
   const [form, setForm] = useState({ phone: "", password: "" });
@@ -47,7 +48,7 @@ const LoginForm = () => {
     console.log("✅ Logging in with:", form);
 
     try {
-      const res = await fetch("${BASE_URL}/api/users/login", {
+      const res = await fetch(`http://72.60.218.40:5000/api/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

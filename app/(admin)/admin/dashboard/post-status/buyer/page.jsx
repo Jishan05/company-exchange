@@ -54,7 +54,7 @@ const BookingTable = () => {
   const fetchData = async (page) => {
     try {
       const res = await fetch(
-        `${BASE_URL}/api/buyers/all?page=${page}&limit=${itemsPerPage}`
+        `http://72.60.218.40:5000/api/buyers/all?page=${page}&limit=${itemsPerPage}`
       );
       const data = await res.json();
       // alert(JSON.stringify(data, null, 2)); // null,2 ka matlab hai pretty print
@@ -69,7 +69,7 @@ const BookingTable = () => {
   const handleStatusChange = async (id, newStatus) => {
     try {
       const res = await fetch(
-        `${BASE_URL}/api/buyers/${id}/status`,
+        `http://72.60.218.40:5000/api/buyers/${id}/status`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
