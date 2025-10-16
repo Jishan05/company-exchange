@@ -20,7 +20,7 @@ const index = () => {
 
   const fetchSellersData = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/sellers", {
+      const res = await fetch("${BASE_URL}/api/sellers", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -40,7 +40,7 @@ const index = () => {
 
   const fetchBuyersData = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/buyers", {
+      const res = await fetch("${BASE_URL}/api/buyers", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });

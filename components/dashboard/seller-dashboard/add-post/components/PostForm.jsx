@@ -91,7 +91,7 @@ const PostForm = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:5000/api/sellers/create", {
+      const res = await fetch("${BASE_URL}/api/sellers/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(company_data), //d full seller data
