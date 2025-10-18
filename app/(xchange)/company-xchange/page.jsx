@@ -90,7 +90,6 @@ const Sidebar = ({ onSearch }) => {
         className="px-20 py-20 rounded-2"
         style={{ backgroundColor: "white" }}
       >
-
         {/* Search by Company Name */}
         <div className=" pb-30">
           <h5 className="text-18 fw-500 mb-10 mt-10">Search Company</h5>
@@ -470,6 +469,16 @@ const PirceSlider = ({ onChange }) => {
   );
 };
 
+// helper: mask mobile numbers. shows lastDigits (default 3) and masks the rest.
+const maskMobile = (mobile = "", lastDigits = 3) => {
+  if (!mobile) return "";
+  const digits = mobile.replace(/\D/g, ""); // keep only digits
+  if (digits.length <= lastDigits) return digits;
+  const visible = digits.slice(-lastDigits);
+  const masked = "X".repeat(Math.max(0, digits.length - lastDigits));
+  return masked + visible;
+};
+
 // -------------------- Hotels List --------------------
 const HotelsList = ({ filters }) => {
   const [sellers, setSellers] = useState([]);
@@ -528,67 +537,76 @@ const HotelsList = ({ filters }) => {
 };
 
 // -------------------- Seller Item --------------------
-const SellerItem = ({ item }) => (
-  <div className="col-12 border-top-light pt-30">
-    <div className="row x-gap-20 y-gap-20">
-      <div className="col-md">
-        <h3 className="text-18 lh-16 fw-500">
-          Company: {item?.company} <br className="lg:d-none" /> ROC State{" "}
-          {item?.roc_state}
-        </h3>
-        <p className="text-14 pt-10">{item?.location}</p>
+const SellerItem = ({ item }) => {
+  const [revealed, setRevealed] = useState(false);
 
-        <div className="d-flex flex-wrap mt-15 gap-20">
-          <InfoBlock title="Mobile" value={item?.mobile} />
-          <InfoBlock title="GST" value={item?.gst} />
-          <InfoBlock title="Category" value={item?.activity} />
+  const handleToggle = () => {
+    setRevealed((s) => !s);
+  };
+
+  return (
+    <div className="col-12 border-top-light pt-30">
+      <div className="row x-gap-20 y-gap-20">
+        <div className="col-md">
+          <h3 className="text-18 lh-16 fw-500">
+            Company: {item?.company} <br className="lg:d-none" /> ROC State{" "}
+            {item?.roc_state}
+          </h3>
+          <p className="text-14 pt-10">{item?.location}</p>
+
+          <div className="d-flex flex-wrap mt-15 gap-20">
+            {/* show masked or full mobile */}
+            <InfoBlock
+              title="Mobile"
+              value={revealed ? item?.mobile : maskMobile(item?.mobile)}
+            />
+            <InfoBlock title="GST" value={item?.gst} />
+            <InfoBlock title="Category" value={item?.activity} />
+          </div>
+
+          <div className="text-14 text-green-2 lh-15 mt-10">
+            <div className="fw-500">Description</div>
+            <div>{item?.notes}</div>
+          </div>
+
+          {item?.tags && (
+            <div className="row x-gap-10 y-gap-10 pt-20 mb-20">
+              {JSON.parse(item?.tags || "[]").map((tag, index) => (
+                <div
+                  key={index}
+                  className="mr-5 mt-1 col-auto border-light rounded-100 py-5 px-20 text-14 lh-14"
+                >
+                  {tag}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
-        <div className="text-14 text-green-2 lh-15 mt-10">
-          <div className="fw-500">Description</div>
-          <div>{item?.notes}</div>
-        </div>
-
-        {item?.tags && (
-          <div className="row x-gap-10 y-gap-10 pt-20 mb-20">
-            {JSON.parse(item?.tags || "[]").map((tag, index) => (
-              <div
-                key={index}
-                className="mr-5 mt-1 col-auto border-light rounded-100 py-5 px-20 text-14 lh-14"
-              >
-                {tag}
+        <div className="col-md-auto text-right md:text-left">
+          <div className="row x-gap-10 y-gap-10 justify-end items-center md:justify-start">
+            <div className="col-auto">
+              <div className="text-14 lh-14 fw-500">Email</div>
+              <div className="text-14 lh-14 text-light-1">{item?.email}</div>
+            </div>
+            <div className="col-auto">
+              <div className="flex-center text-white fw-600 text-14 size-40 rounded-4 bg-blue-1">
+                IN
               </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div className="col-md-auto text-right md:text-left">
-        <div className="row x-gap-10 y-gap-10 justify-end items-center md:justify-start">
-          <div className="col-auto">
-            <div className="text-14 lh-14 fw-500">Email</div>
-            <div className="text-14 lh-14 text-light-1">{item?.email}</div>
-          </div>
-          <div className="col-auto">
-            <div className="flex-center text-white fw-600 text-14 size-40 rounded-4 bg-blue-1">
-              IN
             </div>
           </div>
-        </div>
 
-        <div>
-          <div className="text-22 lh-12 fw-600 mt-5">{item?.price}/- Rs</div>
-          <Link
-            href={`/hotel-single-v2/${item?.id}`}
-            className="button -md -dark-1 bg-blue-1 text-white mt-24"
-          >
-            See Availability <div className="icon-arrow-top-right ml-15"></div>
-          </Link>
+          <div>
+            <div className="text-22 lh-12 fw-600 mt-5">{item?.price}/- Rs</div>
+            <button onClick={handleToggle} className="button -md -dark-1 bg-blue-1 text-white mt-24">
+              {revealed ? "Hide Seller Info" : "View Seller Info"}
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 // -------------------- Info Block --------------------
 const InfoBlock = ({ title, value }) => (

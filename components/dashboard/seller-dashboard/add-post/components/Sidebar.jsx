@@ -27,9 +27,9 @@ const SidebarOne = () => {
       icon: "/img/dashboard/sidebar/booking.svg",
       title: "Manage",
       links: [
-        { title: "All Buyer", href: "#" },
-        { title: "Add Buyer", href: "#" },
-        { title: "Recovery", href: "#" },
+        // { title: "All Buyer", href: "#" },
+        // { title: "Add Buyer", href: "#" },
+        // { title: "Recovery", href: "#" },
       ],
     },
   ];
