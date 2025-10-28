@@ -78,12 +78,12 @@ const LoginForm = () => {
         error?.response?.data || error?.message || error
       );
       // Show the full error object as JSON in alert
-      alert(
-        `Full Error:\n${JSON.stringify(
-          error,
-          2
-        )}`
-      );
+      // alert(
+      //   `Full Error:\n${JSON.stringify(
+      //     error,
+      //     2
+      //   )}`
+      // );
       toast.error("Something went wrong.");
     }
   };
