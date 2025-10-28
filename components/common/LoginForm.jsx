@@ -47,7 +47,7 @@ const LoginForm = () => {
     console.log("✅ Logging in with:", form);
 
     try {
-      const res = await fetch("http://localhost:5000/api/users/login", {
+      const res = await fetch("http://72.60.218.40:5000/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -73,7 +73,17 @@ const LoginForm = () => {
         toast.error(data.error);
       }
     } catch (error) {
-      console.error("❌ Error:", error.message);
+      console.error(
+        "❌ Error:",
+        error?.response?.data || error?.message || error
+      );
+      // Show the full error object as JSON in alert
+      alert(
+        `Full Error:\n${JSON.stringify(
+          error,
+          2
+        )}`
+      );
       toast.error("Something went wrong.");
     }
   };

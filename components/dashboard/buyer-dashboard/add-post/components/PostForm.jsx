@@ -77,7 +77,7 @@ const PostForm = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:5000/api/buyers/create", {
+      const res = await fetch("http://72.60.218.40:5000/api/buyers/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(buyer_data),
