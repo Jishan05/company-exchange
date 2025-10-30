@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import SidebarOne from "@/components/dashboard/seller-dashboard/add-post/components/Sidebar";
 import Footer from "@/components/dashboard/dashboard/common/Footer";
-import HeaderDashBoardTwo from "@/components/header/dashboard-header-two";
+import HeaderDashBoardTwo from "@/components/header/Dashboard-header-two";
 import PostForm from "@/components/dashboard/buyer-dashboard/add-post/components/PostForm";
 import { useSelector } from "react-redux";
 

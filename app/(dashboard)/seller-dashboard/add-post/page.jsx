@@ -3,9 +3,9 @@
 import React, { useEffect } from "react";
 import SidebarOne from "@/components/dashboard/seller-dashboard/add-post/components/Sidebar";
 import Footer from "@/components/dashboard/dashboard/common/Footer";
-import HeaderDashBoardTwo from "@/components/header/dashboard-header-two";
 import PostForm from "@/components/dashboard/seller-dashboard/add-post/components/PostForm";
 import { useSelector } from "react-redux";
+import HeaderDashBoardTwo from "@/components/header/Dashboard-header-two";
 
 export default function Page() {
   const user = useSelector((state) => state.auth.user);

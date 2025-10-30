@@ -2,7 +2,7 @@
 
 import SidebarOne from "@/components/dashboard/seller-dashboard/add-post/components/Sidebar";
 import Footer from "@/components/dashboard/dashboard/common/Footer";
-import UserHeaderDashboard from "@/components/user-dashboard/common/userHeaderDashBoard";
+import UserHeaderDashboard from "../../../components/user-dashboard/common/UserHeaderDashBoard";
 
 export default function UserDashboardLayout({ children }) {
   return (
