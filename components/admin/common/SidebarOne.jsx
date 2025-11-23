@@ -5,21 +5,21 @@ const SidebarOne = () => {
   const sidebarData = [
     {
       icon: "/img/dashboard/sidebar/booking.svg",
-      title: "Post Status",
+      title: "Manage Post",
       links: [
         { title: "Seller Post", href: "/admin/dashboard/post-status/seller" },
         { title: "Buyer Post", href: "/admin/dashboard/post-status/buyer" },
       ],
     },
-    {
-      icon: "/img/dashboard/sidebar/booking.svg",
-      title: "Manage Buyer",
-      links: [
-        { title: "All Buyer", href: "/admin/dashboard/manage-buyer/all" },
-        { title: "Add Buyer", href: "/admin/dashboard/manage-buyer/add" },
-        { title: "Recovery", href: "/admin/dashboard/manage-buyer/recovery" },
-      ],
-    },
+    // {
+    //   icon: "/img/dashboard/sidebar/booking.svg",
+    //   title: "Manage Buyer",
+    //   links: [
+    //     { title: "All Buyer", href: "/admin/dashboard/manage-buyer/all" },
+    //     { title: "Add Buyer", href: "/admin/dashboard/manage-buyer/add" },
+    //     { title: "Recovery", href: "/admin/dashboard/manage-buyer/recovery" },
+    //   ],
+    // },
   ];
 
   return (

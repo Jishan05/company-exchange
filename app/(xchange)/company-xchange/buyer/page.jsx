@@ -375,12 +375,14 @@ const HotelsList = ({ filters }) => {
       }).toString();
 
       const res = await fetch(
-        `http://72.60.218.40:5000/api/buyers/approved?${query}`
+        `http://localhost:4048/api/buyers/approved?${query}`
       );
+
+
 
       const data = await res.json();
       setSellers(data?.data || []);
-      // alert(JSON.stringify(data?.data));
+      console.log('buyer data ', data.data);
       setTotalPages(data?.totalPages || 1);
     } catch (error) {
       console.error("Error fetching sellers:", error);
@@ -413,8 +415,8 @@ const BuyerItem = ({ item }) => (
       <div className="col-md">
         <h3 className="text-18 lh-16 fw-500 ">
           Name: {item?.name} <br className="lg:d-none" /> ROC State:{" "}
-          {item?.rocState} <br className="lg:d-none" /> Age Of Company:{" "}
-          {item?.ageOfCompany} {"year"}
+          {item?.roc_state} <br className="lg:d-none" /> Age Of Company:{" "}
+          {item?.age_of_company} {"year"}
         </h3>
         <p className="text-14 pt-10">{item?.location}</p>
 
@@ -497,9 +499,8 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => (
           {Array.from({ length: totalPages }, (_, i) => (
             <div
               key={i + 1}
-              className={`size-40 flex-center rounded-full cursor-pointer ${
-                currentPage === i + 1 ? "bg-dark-1 text-white" : ""
-              }`}
+              className={`size-40 flex-center rounded-full cursor-pointer ${currentPage === i + 1 ? "bg-dark-1 text-white" : ""
+                }`}
               onClick={() => onPageChange(i + 1)}
             >
               {i + 1}

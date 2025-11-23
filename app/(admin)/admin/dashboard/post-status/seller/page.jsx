@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import { BASE_URL } from "@/features/url";
 
 const Index = () => {
   return (
@@ -16,6 +15,7 @@ const Index = () => {
               Data fetched from backend with pagination.
             </div>
           </div>
+
           <div className="col-auto">
             <Link
               href="#"
@@ -54,22 +54,22 @@ const BookingTable = () => {
   const fetchData = async (page) => {
     try {
       const res = await fetch(
-        `http://72.60.218.40:5000/api/sellers?page=${page}&limit=${itemsPerPage}`
+        `http://localhost:4048/api/sellers?page=${page}&limit=${itemsPerPage}`
       );
       const data = await res.json();
-      // alert(JSON.stringify(data, null, 2)); // null,2 ka matlab hai pretty print
-      setBookings(data.data);
-      setTotalPages(data.totalPages);
+
+      setBookings(data.data || []);
+      setTotalPages(data.totalPages || 1);
     } catch (error) {
       console.error("Error fetching sellers:", error);
     }
   };
 
-  // 🟢 Dummy API handler
+  // -------------------- Status Change --------------------
   const handleStatusChange = async (id, newStatus) => {
     try {
       const res = await fetch(
-        `http://72.60.218.40:5000/api/sellers/seller/${id}/status`,
+        `http://localhost:4048/api/sellers/seller/${id}/status`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -78,48 +78,57 @@ const BookingTable = () => {
       );
 
       const data = await res.json();
-      console.log("✅ Updated:", data);
-      toast.success(data.message)
+      toast.success(data.message);
 
-      // Local state update
       setBookings((prev) =>
-        prev.map((b) => (b.id === id ? { ...b, status: newStatus } : b))
+        prev.map((b) =>
+          b.seller_id === id ? { ...b, status: newStatus } : b
+        )
       );
     } catch (err) {
-      console.error("❌ Update failed:", err);
+      console.error("❌ Status update failed:", err);
     }
   };
 
-  
-  // 🔹 Color style helper
-const getStatusStyle = (status) => {
-  switch (status) {
-    case "approved":
-      return {
-        backgroundColor: "#d4edda",
-        color: "#155724",
-        fontWeight: 600,
-      };
-    case "pending":
-      return {
-        backgroundColor: "#fff3cd",
-        color: "#856404",
-        fontWeight: 600,
-      };
-    case "rejected":
-      return {
-        backgroundColor: "#f8d7da",
-        color: "#721c24",
-        fontWeight: 600,
-      };
-    default:
-      return {
-        backgroundColor: "#e2e3e5",
-        color: "#383d41",
-        fontWeight: 600,
-      };
-  }
-};
+  // -------------------- Status Style Helper --------------------
+  const getStatusStyle = (status) => {
+    switch (status) {
+      case "accept":
+        return { backgroundColor: "#d4edda", color: "#155724", fontWeight: 600 };
+      case "pending":
+        return { backgroundColor: "#fff3cd", color: "#856404", fontWeight: 600 };
+      case "reject":
+        return { backgroundColor: "#f8d7da", color: "#721c24", fontWeight: 600 };
+      default:
+        return { backgroundColor: "#e2e3e5", color: "#383d41", fontWeight: 600 };
+    }
+  };
+
+  // -------------------- Delete Seller --------------------
+  const handleDelete = async (seller_id) => {
+    console.log("delete Called id:", seller_id);
+
+    try {
+      const res = await fetch(
+        `http://localhost:4048/api/sellers/seller/${seller_id}`,
+        { method: "DELETE" }
+      );
+
+      const data = await res.json();
+      toast.success(data.message);
+
+      // Remove deleted record from state
+      setBookings((prev) => prev.filter((b) => b.seller_id !== seller_id));
+    } catch (err) {
+      console.error("❌ Delete failed:", err);
+    }
+  };
+
+  // -------------------- Edit Seller --------------------
+  const handleEdit = (seller_id) => {
+    console.log("edit Called id:", seller_id);
+    window.location.href = "/post/Seller/" + seller_id;
+  };
 
   return (
     <>
@@ -133,42 +142,71 @@ const getStatusStyle = (status) => {
               <th>Mobile</th>
               <th>Status</th>
               <th>Date</th>
+              <th>Actions</th>
             </tr>
           </thead>
+
           <tbody>
-            {bookings?.map((b) => (
-              <tr key={b.id}>
+            {bookings.map((b) => (
+              <tr key={b.seller_id}>
                 <td className="text-blue-1 fw-500">{b.company}</td>
                 <td>{b.roc_state}</td>
                 <td>{b.activity}</td>
                 <td>{b.mobile}</td>
+
                 <td>
                   <select
                     value={b.status}
-                    onChange={(e) => handleStatusChange(b.id, e.target.value)}
+                    onChange={(e) =>
+                      handleStatusChange(b.seller_id, e.target.value)
+                    }
                     style={{
                       ...getStatusStyle(b.status),
                       border: "1px solid #ccc",
                       borderRadius: "6px",
                       padding: "6px 10px",
-                      minWidth: "120px", // ✅ text cut fix
-                      appearance: "none", // ✅ uniform look
-                      // WebkitAppearance: "none",
-                      // MozAppearance: "none",
+                      minWidth: "120px",
                     }}
                   >
                     <option value="pending">Pending</option>
-                    <option value="approved">Approved</option>
-                    <option value="rejected">Rejected</option>
+                    <option value="accept">Accepted</option>
+                    <option value="reject">Rejected</option>
                   </select>
                 </td>
+
                 <td>
                   {(() => {
                     const date = new Date(b.created_at);
-                    return `${String(date.getDate()).padStart(2, "0")}/${String(
-                      date.getMonth() + 1
-                    ).padStart(2, "0")}/${date.getFullYear()}`;
+                    return `${String(date.getDate()).padStart(
+                      2,
+                      "0"
+                    )}/${String(date.getMonth() + 1).padStart(
+                      2,
+                      "0"
+                    )}/${date.getFullYear()}`;
                   })()}
+                </td>
+
+                <td>
+                  <div className="row x-gap-10 y-gap-10 items-center">
+                    <div className="col-auto">
+                      <button
+                        onClick={() => handleEdit(b.seller_id)}
+                        className="flex-center bg-light-2 rounded-4 size-35"
+                      >
+                        <i className="icon-edit text-16 text-light-1" />
+                      </button>
+                    </div>
+
+                    <div className="col-auto">
+                      <button
+                        onClick={() => handleDelete(b.seller_id)}
+                        className="flex-center bg-light-2 rounded-4 size-35"
+                      >
+                        <i className="icon-trash-2 text-16 text-light-1" />
+                      </button>
+                    </div>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -176,7 +214,6 @@ const getStatusStyle = (status) => {
         </table>
       </div>
 
-      {/* Pagination */}
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
@@ -193,6 +230,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   return (
     <div className="border-top-light mt-30 pt-30">
       <div className="row x-gap-10 y-gap-20 justify-between md:justify-center">
+
         <div className="col-auto md:order-1">
           <button
             className="button -blue-1 size-40 rounded-full border-light"
@@ -208,9 +246,8 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             {Array.from({ length: totalPages }, (_, i) => (
               <div
                 key={i + 1}
-                className={`size-40 flex-center rounded-full cursor-pointer ${
-                  currentPage === i + 1 ? "bg-dark-1 text-white" : ""
-                }`}
+                className={`size-40 flex-center rounded-full cursor-pointer ${currentPage === i + 1 ? "bg-dark-1 text-white" : ""
+                  }`}
                 onClick={() => onPageChange(i + 1)}
               >
                 {i + 1}
@@ -228,6 +265,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             <i className="icon-chevron-right text-12" />
           </button>
         </div>
+
       </div>
     </div>
   );

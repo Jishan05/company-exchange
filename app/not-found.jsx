@@ -12,8 +12,8 @@ import DefaultFooter from "../components/footer/default";
 import NotFound from "../components/common/NotFound";
 
 export const metadata = {
-  title: "404 || GoTrip - Travel & Tour React NextJS Template",
-  description: "GoTrip - Travel & Tour React NextJS Template",
+  title: "CompanyXchange - Buy or Sell Companies — Fast, Direct, and Verified",
+  description: "Company Xchange - Buy or Sell Companies — Fast, Direct, and Verified",
 };
 
 const index = () => {

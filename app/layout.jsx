@@ -25,7 +25,6 @@ export default function RootLayout({ children }) {
       duration: 1200,
       once: true,
     });
-    console.log("monish");
   }, []);
   return (
     <html lang="en">

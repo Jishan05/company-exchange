@@ -3,7 +3,9 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import InputRange from "react-input-range";
-import { BASE_URL } from "@/features/url";
+// import { BASE_URL } from "@/features/url";
+
+const Image_url = "http://localhost:4048";
 
 // -------------------- Main Page --------------------
 export default function Page() {
@@ -478,6 +480,8 @@ const HotelsList = ({ filters }) => {
   const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 3;
 
+  console.log('seller list ', sellers)
+
   useEffect(() => {
     fetchData(currentPage, filters);
     // alert(JSON.stringify(filters));
@@ -500,7 +504,7 @@ const HotelsList = ({ filters }) => {
       }).toString();
 
       const res = await fetch(
-        `http://72.60.218.40:5000/api/sellers/getApprovedSellers?${query}`
+        `http://localhost:4048/api/sellers/getApprovedSellers?${query}`
       );
       const data = await res.json();
       setSellers(data?.data || []);
@@ -562,6 +566,31 @@ const SellerItem = ({ item }) => (
             ))}
           </div>
         )}
+
+        {item?.documents && (
+          <div className="mt-20">
+            <div className="fw-500">Documents</div>
+            <div className="mt-10">
+              {JSON.parse(item.documents).map((file, idx) => {
+                const fileUrl = `${Image_url}/uploads/${file}`; // 👈 server file path
+                return (
+                  <div key={idx}>
+                    <a
+                      href={fileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: "#3554d1", textDecoration: "underline" }}
+                    >
+                      📄 {file}
+                    </a>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+
       </div>
 
       <div className="col-md-auto text-right md:text-left">
@@ -579,12 +608,12 @@ const SellerItem = ({ item }) => (
 
         <div>
           <div className="text-22 lh-12 fw-600 mt-5">{item?.price}/- Rs</div>
-          <Link
+          {/* <Link
             href={`/hotel-single-v2/${item?.id}`}
             className="button -md -dark-1 bg-blue-1 text-white mt-24"
           >
             See Availability <div className="icon-arrow-top-right ml-15"></div>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </div>
@@ -618,9 +647,8 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => (
           {Array.from({ length: totalPages }, (_, i) => (
             <div
               key={i + 1}
-              className={`size-40 flex-center rounded-full cursor-pointer ${
-                currentPage === i + 1 ? "bg-dark-1 text-white" : ""
-              }`}
+              className={`size-40 flex-center rounded-full cursor-pointer ${currentPage === i + 1 ? "bg-dark-1 text-white" : ""
+                }`}
               onClick={() => onPageChange(i + 1)}
             >
               {i + 1}

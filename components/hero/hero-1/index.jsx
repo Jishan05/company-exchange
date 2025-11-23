@@ -28,13 +28,13 @@ const index = () => {
                {/* Start btn-group */}
                <div className="d-flex justify-center items-center is-menu-opened-hide md:d-none mt-40">
   <Link
-    href="#"
+    href="/post"
     className="button px-30 fw-400 text-14 -blue-3 bg-dark-4 h-50 text-white"
   >
     List Your Company
   </Link>
   <Link
-    href="#"
+    href="/company-xchange"
     className="button px-30 fw-400 text-14 -outline-blue-1 h-50 text-blue-1 ml-20" 
     style={{ backgroundColor: "#1db67a", color: "#fff", border: "2px solid #1db67a", fontWeight: "bold" }}
   >

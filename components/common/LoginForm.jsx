@@ -4,13 +4,12 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/features/auth/loginSlice";
 import { toast } from "react-toastify";
-import { BASE_URL } from "@/features/url";
 
 const LoginForm = () => {
-  const [form, setForm] = useState({ phone: "", password: "" });
+  const [form, setForm] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
-
   const dispatch = useDispatch();
+
   // Handle input change
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -19,10 +18,13 @@ const LoginForm = () => {
   // Validation
   const validate = () => {
     let errs = {};
-    if (!form.phone) {
-      errs.phone = "Phone number is required";
-    } else if (!/^[0-9]{10}$/.test(form.phone)) {
-      errs.phone = "Enter a valid 10-digit phone number";
+
+    if (!form.email) {
+      errs.email = "Email is required";
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(form.email)
+    ) {
+      errs.email = "Enter a valid email address";
     }
 
     if (!form.password) {
@@ -34,7 +36,6 @@ const LoginForm = () => {
     return errs;
   };
 
-  // Handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -45,68 +46,67 @@ const LoginForm = () => {
     }
 
     setErrors({});
-    console.log("✅ Logging in with:", form);
+    console.log("🔐 Logging in with:", form);
 
     try {
-      const res = await fetch(`http://72.60.218.40:5000/api/users/login`, {
+      const res = await fetch("http://localhost:4048/api/users/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+        credentials: "include",
         body: JSON.stringify({
-          phone: form.phone,
+          email: form.email,
           password: form.password,
         }),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
-      if (res.ok) {
-        const { user, token } = data;
-        dispatch(setUser({ user, token }));
-        toast.success("Login successful!");
-        if (user.role === "admin") {
-          window.location.href = "/admin/dashboard";
-        } else if (user.role === "user") {
-          window.location.href = "/dashboard";
-        } else {
-          toast.error("Invalid role");
-        }
+      console.log("📨 Response Data:", data);
+
+      if (!res.ok) {
+        toast.error(data.error || "Login failed");
+        return;
+      }
+
+      const { user, token } = data;
+
+      dispatch(setUser({ user, token }));
+      toast.success("Login successful!");
+
+      if (user.role === "admin") {
+        window.location.href = "/admin/dashboard";
       } else {
-        toast.error(data.error);
+        window.location.href = "/dashboard";
       }
     } catch (error) {
-      console.error("❌ Error:", error.message);
-      toast.error("Something went wrong.");
+      console.error("❌ Fetch Error:", error);
+      toast.error("Network error. Backend not reachable.");
     }
   };
 
   return (
     <form className="row y-gap-20" onSubmit={handleSubmit}>
       <div className="col-12">
-        <h1 className="text-22 fw-500">Welcome back</h1>
-        <p className="mt-10">
-          Don&apos;t have an account yet?{" "}
-          <Link href="/signup" className="text-blue-1">
-            Sign up for free
-          </Link>
-        </p>
+        <h1 className="text-22 fw-500">Good to See You Again 👋</h1>
       </div>
 
-      {/* Phone Number */}
+      {/* Email */}
       <div className="col-12">
         <div className="form-input">
           <input
-            type="text"
-            name="phone"
-            value={form.phone}
+            type="email"
+            name="email"
+            value={form.email}
             onChange={handleChange}
             required
           />
-          <label className="lh-1 text-14 text-light-1">Phone Number</label>
+          <label className="lh-1 text-14 text-light-1">Email</label>
         </div>
-        {errors.phone && (
-          <p style={{ color: "red" }} className="text-red-500 text-13">
-            {errors.phone}
-          </p>
+        {errors.email && (
+          <p className="text-red-500 text-13">{errors.email}</p>
         )}
       </div>
 
@@ -123,9 +123,7 @@ const LoginForm = () => {
           <label className="lh-1 text-14 text-light-1">Password</label>
         </div>
         {errors.password && (
-          <p style={{ color: "red" }} className="text-red-500 text-13">
-            {errors.password}
-          </p>
+          <p className="text-red-500 text-13">{errors.password}</p>
         )}
       </div>
 

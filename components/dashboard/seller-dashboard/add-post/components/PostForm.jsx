@@ -1,14 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FileUploader from "./FileUploader";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { BASE_URL } from "@/features/url";
 
-const PostForm = () => {
+const PostForm = ({ mode = "create", sellerId = null }) => {
+  const [loading, setLoading] = useState(mode === "edit");
   const [formData, setFormData] = useState({
     user_id: null,
     mobile: "",
+    name: "",
     company: "",
     email: "",
     rocState: "",
@@ -19,12 +21,63 @@ const PostForm = () => {
     incorporation: "",
     notes: "",
     tags: [],
-    files: [],
+    files: [],     // existing filenames from backend
+    newFiles: []   // new uploads only
   });
 
   const [errors, setErrors] = useState({});
 
-  const user = useSelector((state) => state.auth.user);
+
+  // ---------------------------
+  // FETCH DATA IN EDIT MODE
+  // ---------------------------
+  useEffect(() => {
+    if (mode === "edit" && sellerId) {
+      fetchSellerData();
+    }
+  }, [sellerId]);
+
+  const fetchSellerData = async () => {
+    try {
+      const res = await fetch(`http://localhost:4048/api/sellers/seller/${sellerId}`);
+      const data = await res.json();
+      console.log('edit seller data  mk', data);
+
+
+      if (data.success) {
+        const s = data.data;
+
+        setFormData({
+          user_id: s.user_id || null,
+          mobile: s.mobile || "",
+          name: s.name || "",
+          company: s.company || "",
+          email: s.email || "",
+          rocState: s.roc_state || "",
+          activity: s.activity || "",
+          price: s.price || "",
+          gst: s.gst || "",
+          compliance: s.compliance || "",
+          incorporation: s.incorporation
+            ? s.incorporation.substring(0, 10)
+            : "",
+          notes: s.notes || "",
+          tags: Array.isArray(s.tags) ? s.tags : [],
+          files: s.documents ? JSON.parse(s.documents) : [], // Parse JSON array
+        });
+
+      } else {
+        toast.error("Failed to load seller data");
+      }
+    } catch (err) {
+      console.log('edit seller err ', err);
+      toast.error("Error loading data");
+    }
+    setLoading(false);
+  };
+
+
+  // const user = useSelector((state) => state.auth.user);
 
   // Handle change for input fields
   const handleChange = (e) => {
@@ -47,87 +100,245 @@ const PostForm = () => {
 
   // Handle file upload
   const handleFileUpload = (files) => {
-    setFormData((prev) => ({ ...prev, files }));
+    setFormData(prev => ({
+      ...prev,
+      newFiles: files // only File objects
+    }));
+
   };
 
-  // Validate required fields
   const validate = () => {
     let newErrors = {};
+
+    // Name validation
+    if (!formData.name) newErrors.name = "Name is required";
+
     // Mobile validation
     if (!formData.mobile) {
       newErrors.mobile = "Mobile Number is required";
     } else if (!/^[6-9]\d{9}$/.test(formData.mobile)) {
       newErrors.mobile = "Enter a valid 10-digit mobile number";
     }
+
     if (!formData.company) newErrors.company = "Company Name is required";
     if (!formData.email) newErrors.email = "Email is required";
     if (!formData.rocState) newErrors.rocState = "Please select ROC State";
     if (!formData.activity) newErrors.activity = "Business Activity required";
     if (!formData.price) newErrors.price = "Expected Price required";
     if (!formData.gst) newErrors.gst = "Select GST status";
-    if (!formData.compliance)
-      newErrors.compliance = "Compliance status required";
-    if (!formData.incorporation)
-      newErrors.incorporation = "Year of Incorporation required";
+    if (!formData.compliance) newErrors.compliance = "Compliance status required";
+    if (!formData.incorporation) newErrors.incorporation = "Year of Incorporation required";
     if (!formData.notes) newErrors.notes = "Notes are required";
+
     return newErrors;
   };
 
+
   // Submit form
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   const newErrors = validate();
+  //   if (Object.keys(newErrors).length > 0) {
+  //     setErrors(newErrors);
+  //     return;
+  //   }
+
+  //   setErrors({});
+  //   setLoading(true);
+
+  //   const payload = { ...formData };
+
+  //   try {
+  //     const endpoint =
+  //       mode === "edit"
+  //         ? `http://localhost:4048/api/sellers/seller/${sellerId}`
+  //         : `http://localhost:4048/api/sellers/create`;
+
+  //     const method = mode === "edit" ? "PUT" : "POST";
+
+  //     const res = await fetch(endpoint, {
+  //       method,
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(payload),
+  //     });
+
+  //     const data = await res.json();
+
+  //     if (!res.ok) {
+  //       toast.error(data.error || "Action failed!");
+  //       return;
+  //     }
+
+  //     toast.success(
+  //       mode === "edit"
+  //         ? "Seller updated successfully!"
+  //         : "Seller created successfully!"
+  //     );
+
+  //     if (mode === "create") {
+  //       setFormData({
+  //         mobile: "",
+  //         name: "",
+  //         company: "",
+  //         email: "",
+  //         rocState: "",
+  //         activity: "",
+  //         price: "",
+  //         gst: "",
+  //         compliance: "",
+  //         incorporation: "",
+  //         notes: "",
+  //         tags: [],
+  //         files: [],
+  //       });
+  //     }
+  //   } catch (error) {
+  //     toast.error("Something went wrong. Try again.");
+  //     console.error(error);
+  //   }
+
+  //   setLoading(false);
+  // };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate before sending
     const newErrors = validate();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      return; // stop submit if errors
+      return;
     }
 
-    setErrors({});
+    setLoading(true);
 
-    const company_data = {
-      ...formData,
-      user_id: user.id,
-    };
+    const formDataObj = new FormData();
+
+    Object.keys(formData).forEach((key) => {
+      if (key === "newFiles") {
+        formData.newFiles.forEach((file) => {
+          formDataObj.append("documents", file);
+        });
+      } else if (key !== "files") {
+        // "files" contains only backend filenames — do NOT send again
+        formDataObj.append(key, formData[key]);
+      }
+    });
+
+    const endpoint =
+      mode === "edit"
+        ? `http://localhost:4048/api/sellers/seller/${sellerId}`
+        : `http://localhost:4048/api/sellers/create`;
+
+    const method = mode === "edit" ? "PUT" : "POST";
+
+    const res = await fetch(endpoint, {
+      method,
+      body: formDataObj,
+    });
+
+    const data = await res.json();
+    setLoading(false);
+
+    if (!res.ok) return toast.error(data.error || "Failed!");
+    toast.success(mode === "edit" ? "Updated!" : "Created!");
+  };
+
+
+  const handleDeleteFile = async (filename) => {
+    console.log('handle delete file ', filename);
+
+    if (!confirm(`Delete ${filename}?`)) return;
 
     try {
-      const res = await fetch(`http://72.60.218.40:5000/api/sellers/create`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(company_data), //d full seller data
-      });
+      const res = await fetch(
+        `http://localhost:4048/api/sellers/seller/${sellerId}/delete-file`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ filename }),
+        }
+      );
 
       const data = await res.json();
-
-      if (res.ok) {
-        toast.success("Seller created successfully!");
-
-        // clear form after success
-        setFormData({
-          mobile: "",
-          company: "",
-          email: "",
-          rocState: "",
-          activity: "",
-          price: "",
-          gst: "",
-          compliance: "",
-          incorporation: "",
-          notes: "",
-          tags: [],
-          files: [],
-        });
+      if (data.success) {
+        // UI se remove
+        setFormData((prev) => ({
+          ...prev,
+          files: prev.files.filter((f) => f !== filename),
+        }));
       } else {
-        toast.error(data.error);
-        alert(data.error || "Failed to create seller");
+        alert("Delete failed!");
       }
-    } catch (error) {
-      toast.error("Something went wrong. Please try again.");
-      console.error("❌ Error:", error.message);
-      alert("Something went wrong. Please try again.");
+    } catch (err) {
+      console.log(err);
     }
   };
+
+
+
+
+
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   // Validate before sending
+  //   const newErrors = validate();
+  //   if (Object.keys(newErrors).length > 0) {
+  //     setErrors(newErrors);
+  //     return; // stop submit if errors
+  //   }
+
+  //   setErrors({});
+
+  //   const company_data = {
+  //     ...formData,
+  //   };
+
+  //   console.log('seller post data ', company_data);
+
+
+  //   try {
+  //     const res = await fetch(`http://localhost:4048/api/sellers/create`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(company_data), //d full seller data
+  //     });
+
+  //     const data = await res.json();
+
+  //     if (res.ok) {
+  //       toast.success("Seller created successfully!");
+
+  //       // clear form after success
+  //       setFormData({
+  //         mobile: "",
+  //         name: "",
+  //         company: "",
+  //         email: "",
+  //         rocState: "",
+  //         activity: "",
+  //         price: "",
+  //         gst: "",
+  //         compliance: "",
+  //         incorporation: "",
+  //         notes: "",
+  //         tags: [],
+  //         files: [],
+  //       });
+  //     } else {
+  //       toast.error(data.error);
+  //       alert(data.error || "Failed to create seller");
+  //     }
+  //   } catch (error) {
+  //     toast.error("Something went wrong. Please try again.");
+  //     console.error("❌ Error:", error.message);
+  //     alert("Something went wrong. Please try again.");
+  //   }
+  // };
 
   return (
     <form className="row x-gap-20 y-gap-20" onSubmit={handleSubmit}>
@@ -144,6 +355,23 @@ const PostForm = () => {
         </div>
         {errors.mobile && (
           <p style={{ color: "red", fontSize: 12 }}>{errors.mobile}</p>
+        )}
+      </div>
+
+
+      {/* Name */}
+      <div className="col-md-6">
+        <div className="form-input">
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+          />
+          <label>Your Name</label>
+        </div>
+        {errors.name && (
+          <p style={{ color: "red", fontSize: 12 }}>{errors.name}</p>
         )}
       </div>
 
@@ -454,10 +682,56 @@ const PostForm = () => {
         </div>
       </div>
 
-      {/* Upload */}
-      {/* <div className="col-12 mt-30">
-        <FileUploader onUpload={handleFileUpload} />
-      </div> */}
+      {/* Upload Files */}
+      <div className="col-12 mt-30">
+        <FileUploader onFilesChange={handleFileUpload} />
+      </div>
+
+      <div className="col-12 mt-3">
+        <label>Uploaded Files:</label>
+        <div className="d-flex gap-2 flex-wrap mt-2">
+          {/* Existing saved files clickable */}
+          {/* {formData.files?.map((file, index) => (
+            <a
+              key={index}
+              href={`http://localhost:4048/uploads/${file}`}
+              target="_blank"
+              style={{ display: 'block' }}
+            >
+              📄 {file}
+            </a>
+          ))} */}
+
+          {formData.files?.map((file, index) => (
+            <div key={index} style={{ display: "flex", gap: 6 }}>
+              <a
+                href={`http://localhost:4048/uploads/${file}`}
+                target="_blank"
+              >
+                📄 {file}
+              </a>
+              <button
+                type="button"
+                onClick={() => handleDeleteFile(file)}
+                style={{ color: "red", border: "none", background: "transparent" }}
+              >
+                ❌
+              </button>
+            </div>
+          ))}
+
+
+
+
+          {/* Newly selected file names */}
+          {formData.newFiles?.map((file, index) => (
+            <div key={index}>
+              📌 {file.name}
+            </div>
+          ))}
+        </div>
+      </div>
+
 
       {/* Submit */}
       <div className="d-inline-block pt-30">
@@ -465,7 +739,7 @@ const PostForm = () => {
           type="submit"
           className="button h-50 px-24 -dark-1 bg-blue-1 text-white"
         >
-          Save Changes
+          {loading ? "Submitting..." : mode === "edit" ? "Update Post" : "Create Post"}
         </button>
       </div>
     </form>

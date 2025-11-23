@@ -4,43 +4,34 @@ import Footer from "@/components/dashboard/dashboard/common/Footer";
 import BookingTable from "./components/BookingTable";
 import Link from "next/link";
 
-const index = () => {
+const Index = () => {
   return (
     <>
-      <div className="">
-        <div className="bg-light-2">
-          <div className="row y-gap-20 justify-between items-end mt-30 pb-30 lg:pb-30 md:pb-30">
-            <div className="col-auto">
-              <h1 className="text-30 lh-14 fw-600"> Admin Company List</h1>
-              <div className="text-15 text-light-1">
-                Lorem ipsum dolor sit amet, consectetur.
-              </div>
-            </div>
-            {/* End .col-auto */}
-
-            <div className="col-auto">
-              <Link
-                href="#"
-                className="button h-50 px-24 -dark-1 bg-blue-1 text-white"
-              >
-                Latest Companies{" "}
-                <div className="icon-arrow-top-right ml-15"></div>
-              </Link>
+      <div className="min-h-screen bg-light-2">
+        {/* Page Header */}
+        <div className="row y-gap-20 justify-between items-end mt-30 pb-30 lg:pb-30 md:pb-30">
+          <div className="col-auto">
+            <h1 className="text-30 lh-14 fw-600">Admin Company List</h1>
+            <div className="text-15 text-light-1">
+              Below is the complete list of companies registered on CompanyXchange.
+              You can review company details, verify their status, and manage their access.
+              This dashboard provides admins full control to monitor, approve or restrict
+              company profiles for a secure and smooth platform experience.
             </div>
           </div>
-          {/* End .row */}
+          {/* End .col-auto */}
 
-          <div className="py-30 px-30 rounded-4 bg-white shadow-3">
-            <BookingTable />
-            {/* End tabs */}
-          </div>
-
-          
+          <div className="col-auto"></div>
         </div>
-        {/* End .dashboard__content */}
+        {/* End .row */}
+
+        {/* Company Table Section */}
+        <div className="mt-20" style={{height: '100vh'}}>
+          {/* <BookingTable /> */}
+        </div>
       </div>
     </>
   );
 };
 
-export default index;
+export default Index;

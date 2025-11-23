@@ -1,14 +1,14 @@
 "use client";
 
-import { da } from "@faker-js/faker";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { BASE_URL } from "@/features/url";
 
-const PostForm = () => {
+const PostForm = ({ mode = "create", buyerId = null }) => {
+  const [loading, setLoading] = useState(mode === "edit");
+
   const [formData, setFormData] = useState({
-    user_id: null, // attach logged-in user id later
     mobile: "",
     name: "",
     email: "",
@@ -23,9 +23,46 @@ const PostForm = () => {
 
   const [errors, setErrors] = useState({});
 
-  const user = useSelector((state) => state.auth.user);
+  // 🚀 Fetch Data in Edit Mode
+  useEffect(() => {
+    if (mode === "edit" && buyerId) {
+      fetchBuyerData();
+    }
+  }, [buyerId]);
 
-  // handle input/select
+  const fetchBuyerData = async () => {
+    try {
+      const res = await fetch(`http://localhost:4048/api/buyers/buyer/${buyerId}`);
+      const data = await res.json();
+      console.log("Edit buyer data ==> ", data);
+
+      if (data.success) {
+        const b = data.data;
+
+        setFormData({
+          mobile: b.mobile || "",
+          name: b.name || "",
+          email: b.email || "",
+          rocState: b.roc_state || "",
+          activity: b.activity || "",
+          budget: b.budget || "",
+          gst: b.gst || "",
+          ageOfCompany: b.age_of_company || "",
+          notes: b.notes || "",
+          tags: Array.isArray(b.tags) ? b.tags : [],
+        });
+
+      } else {
+        toast.error("Failed to fetch buyer data");
+      }
+    } catch (err) {
+      console.error("Fetch buyer error", err);
+      toast.error("Error loading buyer data");
+    }
+    setLoading(false);
+  };
+
+  // Handle Input
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -43,57 +80,65 @@ const PostForm = () => {
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
-  // validate fields
+  // Validation
   const validate = () => {
-    let newErrors = {};
-    if (!formData.mobile) {
-      newErrors.mobile = "Mobile number is required";
-    } else if (!/^[6-9]\d{9}$/.test(formData.mobile)) {
+    const newErrors = {};
+
+    if (!formData.mobile) newErrors.mobile = "Mobile number is required";
+    else if (!/^[6-9]\d{9}$/.test(formData.mobile))
       newErrors.mobile = "Enter valid 10-digit mobile number";
-    }
+
     if (!formData.name) newErrors.name = "Name is required";
     if (!formData.email) newErrors.email = "Email is required";
-    if (!formData.rocState) newErrors.rocState = "ROC state required";
+    if (!formData.rocState) newErrors.rocState = "Select ROC state";
     if (!formData.activity) newErrors.activity = "Activity required";
     if (!formData.budget) newErrors.budget = "Budget required";
-    if (!formData.gst) newErrors.gst = "GST selection required";
-    if (!formData.ageOfCompany)
-      newErrors.ageOfCompany = "Age selection required";
-    if (!formData.notes) newErrors.notes = "Notes required";
+    if (!formData.gst) newErrors.gst = "Select GST";
+    if (!formData.ageOfCompany) newErrors.ageOfCompany = "Company age required";
+    if (!formData.notes) newErrors.notes = "Notes are required";
+
     return newErrors;
   };
 
-  // submit handler
+  // Submit Form
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const newErrors = validate();
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
-    const buyer_data = {
-      ...formData,
-      user_id: user.id,
-    };
+    if (Object.keys(newErrors).length > 0) return setErrors(newErrors);
 
-    console.log("BASE_URL is:", BASE_URL);
+    setLoading(true);
+
+    const payload = { ...formData };
 
     try {
-      
-      const res = await fetch(`http://72.60.218.40:5000/api/buyers/create`, {
-        method: "POST",
+      const endpoint =
+        mode === "edit"
+          ? `http://localhost:4048/api/buyers/buyer/${buyerId}`
+          : `http://localhost:4048/api/buyers/create`;
+
+      const method = mode === "edit" ? "PUT" : "POST";
+
+      const res = await fetch(endpoint, {
+        method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(buyer_data),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
 
-      if (res.ok) {
-        toast.success("uyer post created successfully!");
+      if (!res.ok) {
+        toast.error(data.error || "Failed!");
+        return;
+      }
 
+      toast.success(
+        mode === "edit"
+          ? "Buyer updated successfully!"
+          : "Buyer created successfully!"
+      );
+
+      if (mode === "create") {
         setFormData({
-          user_id: null,
           mobile: "",
           name: "",
           email: "",
@@ -105,13 +150,16 @@ const PostForm = () => {
           notes: "",
           tags: [],
         });
-      } else {
-        toast.error(da.error || "Failed to create buyer post");
       }
     } catch (err) {
+      console.error("Submit error:", err);
       toast.error("Something went wrong!");
     }
+
+    setLoading(false);
   };
+
+
 
   return (
     <form className="row x-gap-20 y-gap-20" onSubmit={handleSubmit}>

@@ -54,7 +54,7 @@ const BookingTable = () => {
   const fetchData = async (page) => {
     try {
       const res = await fetch(
-        `http://72.60.218.40:5000/api/buyers/all?page=${page}&limit=${itemsPerPage}`
+        `http://localhost:4048/api/buyers/all?page=${page}&limit=${itemsPerPage}`
       );
       const data = await res.json();
       // alert(JSON.stringify(data, null, 2)); // null,2 ka matlab hai pretty print
@@ -69,7 +69,7 @@ const BookingTable = () => {
   const handleStatusChange = async (id, newStatus) => {
     try {
       const res = await fetch(
-        `http://72.60.218.40:5000/api/buyers/${id}/status`,
+        `http://localhost:4048/api/buyers/${id}/status`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -85,14 +85,14 @@ const BookingTable = () => {
         prev.map((b) => (b.id === id ? { ...b, status: newStatus } : b))
       );
     } catch (err) {
-      console.error("❌ Update failed:", err);
+      console.log("❌ Update failed:", err);
     }
   };
 
   // 🔹 Color style helper
   const getStatusStyle = (status) => {
     switch (status) {
-      case "approved":
+      case "accept":
         return {
           backgroundColor: "#d4edda",
           color: "#155724",
@@ -119,6 +119,32 @@ const BookingTable = () => {
     }
   };
 
+
+  const handleDelete = async (id) => {
+    console.log('delete Called id:', id);
+
+    try {
+      const res = await fetch(`http://localhost:4048/api/buyers/${id}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+      toast.success(data.message);
+
+      // remove deleted record from table
+      setBookings(prev => prev.filter(b => b.id !== id));
+
+    } catch (err) {
+      console.log("❌ Delete failed:", err);
+    }
+  };
+
+
+  const handleEdit = (id) => {
+    console.log("edit Called id:", id);
+    window.location.href = "/post/Buyer/" + id;
+  };
+
   return (
     <>
       <div className="overflow-scroll scroll-bar-1">
@@ -132,13 +158,14 @@ const BookingTable = () => {
               <th>Number</th>
               <th>Status</th>
               <th>Date</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {bookings?.map((b) => (
               <tr key={b.id}>
                 <td className="text-blue-1 fw-500">{b.name}</td>
-                <td>{b.rocState}</td>
+                <td>{b.roc_state}</td>
                 <td>{b.activity}</td>
                 <td>{b.budget}</td>
                 <td>{b.mobile}</td>
@@ -156,7 +183,7 @@ const BookingTable = () => {
                     }}
                   >
                     <option value="pending">Pending</option>
-                    <option value="approved">Approved</option>
+                    <option value="accept">Approved</option>
                     <option value="rejected">Rejected</option>
                   </select>
                 </td>
@@ -167,6 +194,22 @@ const BookingTable = () => {
                       date.getMonth() + 1
                     ).padStart(2, "0")}/${date.getFullYear()}`;
                   })()}
+                </td>
+
+                {/* actions */}
+                <td>
+                  <div className="row x-gap-10 y-gap-10 items-center">
+                    <div className="col-auto">
+                      <button onClick={() => handleEdit(b.id)} className="flex-center bg-light-2 rounded-4 size-35">
+                        <i className="icon-edit text-16 text-light-1" />
+                      </button>
+                    </div>
+                    <div className="col-auto">
+                      <button onClick={() => handleDelete(b.id)} className="flex-center bg-light-2 rounded-4 size-35">
+                        <i className="icon-trash-2 text-16 text-light-1" />
+                      </button>
+                    </div>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -206,9 +249,8 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             {Array.from({ length: totalPages }, (_, i) => (
               <div
                 key={i + 1}
-                className={`size-40 flex-center rounded-full cursor-pointer ${
-                  currentPage === i + 1 ? "bg-dark-1 text-white" : ""
-                }`}
+                className={`size-40 flex-center rounded-full cursor-pointer ${currentPage === i + 1 ? "bg-dark-1 text-white" : ""
+                  }`}
                 onClick={() => onPageChange(i + 1)}
               >
                 {i + 1}
