@@ -98,7 +98,7 @@ const Header12 = () => {
                       aria-labelledby="offcanvasMenuLabel"
                       data-bs-scroll="true"
                     >
-                      <MobileMenu />
+                      {/* <MobileMenu /> */}
                       {/* End MobileMenu */}
                     </div>
                   </div>

@@ -28,7 +28,7 @@ const MenuTwo = ({ style = "" }) => {
             isActiveParentChaild(homeItems, pathname) ? "current" : ""
           } menu-item-has-children`}
         >
-          <a href="/home_11">
+          <a href="/">
             <span className="mr-10">Home</span>
           </a>
         </li>

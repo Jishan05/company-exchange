@@ -49,7 +49,7 @@ const LoginForm = () => {
     console.log("🔐 Logging in with:", form);
 
     try {
-      const res = await fetch("http://localhost:4048/api/users/login", {
+      const res = await fetch("http://72.60.218.40:4048/api/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -82,7 +82,7 @@ const LoginForm = () => {
         window.location.href = "/dashboard";
       }
     } catch (error) {
-      console.error("❌ Fetch Error:", error);
+      console.log("❌ Fetch Error:", error.response || error.message);
       toast.error("Network error. Backend not reachable.");
     }
   };

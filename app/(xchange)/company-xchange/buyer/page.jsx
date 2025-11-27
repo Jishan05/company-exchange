@@ -375,7 +375,7 @@ const HotelsList = ({ filters }) => {
       }).toString();
 
       const res = await fetch(
-        `http://localhost:4048/api/buyers/approved?${query}`
+        `http://72.60.218.40:4048/api/buyers/approved?${query}`
       );
 
 

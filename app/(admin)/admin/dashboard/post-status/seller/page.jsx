@@ -54,7 +54,7 @@ const BookingTable = () => {
   const fetchData = async (page) => {
     try {
       const res = await fetch(
-        `http://localhost:4048/api/sellers?page=${page}&limit=${itemsPerPage}`
+        `http://72.60.218.40:4048/api/sellers?page=${page}&limit=${itemsPerPage}`
       );
       const data = await res.json();
 
@@ -69,7 +69,7 @@ const BookingTable = () => {
   const handleStatusChange = async (id, newStatus) => {
     try {
       const res = await fetch(
-        `http://localhost:4048/api/sellers/seller/${id}/status`,
+        `http://72.60.218.40:4048/api/sellers/seller/${id}/status`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -110,7 +110,7 @@ const BookingTable = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:4048/api/sellers/seller/${seller_id}`,
+        `http://72.60.218.40:4048/api/sellers/seller/${seller_id}`,
         { method: "DELETE" }
       );
 

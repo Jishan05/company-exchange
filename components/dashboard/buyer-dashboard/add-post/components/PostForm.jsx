@@ -32,7 +32,7 @@ const PostForm = ({ mode = "create", buyerId = null }) => {
 
   const fetchBuyerData = async () => {
     try {
-      const res = await fetch(`http://localhost:4048/api/buyers/buyer/${buyerId}`);
+      const res = await fetch(`http://72.60.218.40:4048/api/buyers/buyer/${buyerId}`);
       const data = await res.json();
       console.log("Edit buyer data ==> ", data);
 
@@ -113,8 +113,8 @@ const PostForm = ({ mode = "create", buyerId = null }) => {
     try {
       const endpoint =
         mode === "edit"
-          ? `http://localhost:4048/api/buyers/buyer/${buyerId}`
-          : `http://localhost:4048/api/buyers/create`;
+          ? `http://72.60.218.40:4048/api/buyers/buyer/${buyerId}`
+          : `http://72.60.218.40:4048/api/buyers/create`;
 
       const method = mode === "edit" ? "PUT" : "POST";
 

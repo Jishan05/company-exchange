@@ -5,7 +5,7 @@ import Link from "next/link";
 import InputRange from "react-input-range";
 // import { BASE_URL } from "@/features/url";
 
-const Image_url = "http://localhost:4048";
+const Image_url = "http://72.60.218.40:4048";
 
 // -------------------- Main Page --------------------
 export default function Page() {
@@ -504,7 +504,7 @@ const HotelsList = ({ filters }) => {
       }).toString();
 
       const res = await fetch(
-        `http://localhost:4048/api/sellers/getApprovedSellers?${query}`
+        `http://72.60.218.40:4048/api/sellers/getApprovedSellers?${query}`
       );
       const data = await res.json();
       setSellers(data?.data || []);

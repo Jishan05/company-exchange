@@ -39,7 +39,7 @@ const PostForm = ({ mode = "create", sellerId = null }) => {
 
   const fetchSellerData = async () => {
     try {
-      const res = await fetch(`http://localhost:4048/api/sellers/seller/${sellerId}`);
+      const res = await fetch(`http://72.60.218.40:4048/api/sellers/seller/${sellerId}`);
       const data = await res.json();
       console.log('edit seller data  mk', data);
 
@@ -227,8 +227,8 @@ const PostForm = ({ mode = "create", sellerId = null }) => {
 
     const endpoint =
       mode === "edit"
-        ? `http://localhost:4048/api/sellers/seller/${sellerId}`
-        : `http://localhost:4048/api/sellers/create`;
+        ? `http://72.60.218.40:4048/api/sellers/seller/${sellerId}`
+        : `http://72.60.218.40:4048/api/sellers/create`;
 
     const method = mode === "edit" ? "PUT" : "POST";
 
@@ -252,7 +252,7 @@ const PostForm = ({ mode = "create", sellerId = null }) => {
 
     try {
       const res = await fetch(
-        `http://localhost:4048/api/sellers/seller/${sellerId}/delete-file`,
+        `http://72.60.218.40:4048/api/sellers/seller/${sellerId}/delete-file`,
         {
           method: "POST",
           headers: {
