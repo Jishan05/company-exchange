@@ -460,12 +460,12 @@ const BuyerItem = ({ item }) => (
 
         <div>
           <div className="text-22 lh-12 fw-600 mt-5">{item?.budget}/- Rs</div>
-          <Link
+          {/* <Link
             href={`/hotel-single-v2/${item?.id}`}
             className="button -md -dark-1 bg-blue-1 text-white mt-24"
           >
             See Availability <div className="icon-arrow-top-right ml-15"></div>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </div>
